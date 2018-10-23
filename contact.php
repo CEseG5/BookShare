@@ -30,17 +30,17 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html" title="uiCookies:Inspire">Inspire</a>
+          <a class="navbar-brand" href="index.php" title="uiCookies:Inspire">Inspire</a>
         </div>
 
         <div id="navbar-collapse" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="index.html">Home</a></li>
+            <li><a href="index.php">Home</a></li>
             <li class="dropdown">
               <a href="#" data-toggle="dropdown" class="dropdown-toggle">Pages</a>
               <ul class="dropdown-menu dropdown">
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="team.html">Team</a></li>
+                <li><a href="about.php">About Us</a></li>
+                <li><a href="team.php">Team</a></li>
                 <li class="dropdown-submenu dropdown">
                   <a href="#" data-toggle="dropdown" class="dropdown-toggle"><span>Sub Menu</span></a>
                   <ul class="dropdown-menu">
@@ -50,11 +50,11 @@
                     <li><a href="#">Second Level Menu</a></li>
                   </ul>
                 </li>
-                <li><a href="faq.html">FAQ</a></li>
-                <li><a href="pricing.html">Pricing</a></li>
+                <li><a href="faq.php">FAQ</a></li>
+                <li><a href="pricing.php">Pricing</a></li>
               </ul>
             </li>
-            <li class="active"><a href="contact.html">Contact</a></li>
+            <li class="active"><a href="contact.php">Contact</a></li>
             <li class="probootstra-cta-button"><a href="#" class="btn" data-toggle="modal" data-target="#loginModal">Log in</a></li>
             <li class="probootstra-cta-button last"><a href="#" class="btn btn-ghost" data-toggle="modal" data-target="#signupModal">Sign up</a></li>
           </ul>
