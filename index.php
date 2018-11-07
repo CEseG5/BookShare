@@ -1,4 +1,7 @@
-<?php include "includes/header.php" ?>
+<?php 
+    include "includes/header.php";
+    include "includes/navbar.php";
+ ?>
 
 <section class="probootstrap-hero">
   <div class="container">
@@ -58,7 +61,7 @@
           </div>
       </div>
 
-       <!-- ##### Latest Books Area End ##### -->
+      <!-- ##### Latest Books Area End ##### -->
 
   </div>        
 </section>
