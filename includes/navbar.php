@@ -19,7 +19,6 @@
         <li><a href="contact.php">Contact</a></li>
          <li class="probootstra-cta-button"><a href="#" class="btn" data-toggle="modal" data-target="#loginModal">Log in</a></li>
         <li class="probootstra-cta-button last"><a href="#" class="btn btn-ghost" data-toggle="modal" data-target="#signupModal">Sign up</a></li>
-	
       </ul>
     </div>
   </div>
