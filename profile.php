@@ -73,7 +73,8 @@ include "includes/navbar.php";
           <div class="divTable col-md-12">
             <div class="divTableBody">
               <div class="divTableRow">
-                <div class="divTableCell  col-md-offset-8 col-md-4  text-right"><a href="">Change Password</a></div>
+                <div class="divTableCell col-md-offset-4 col-md-4 text-center"><a href="">Delete Account</a></div>
+                <div class="divTableCell col-md-4 text-right"><a href="">Change Password</a></div>
               </div>
             </div>
           </div>
