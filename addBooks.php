@@ -6,7 +6,6 @@
  <html>
  <head>
    <title>Add Books</title>
-   <link rel="stylesheet" type="text/css" href="css/style.addbook.css">
  </head>
  <body>
     <section class="probootstrap-hero probootstrap-xs-hero probootstrap-hero-colored">
