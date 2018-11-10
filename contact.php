@@ -20,7 +20,7 @@
     <section class="probootstrap-section probootstrap-bg-white">
       <div class="container">
         <div class="row">
-          <div class="col-md-5 probootstrap-animate" data-animate-effect="fadeIn">
+          <div class="col-md-offset-3 col-md-6 probootstrap-animate" data-animate-effect="fadeIn">
             <h2>Drop us a line</h2>
             <form action="#" method="post" class="probootstrap-form">
               <div class="form-group">
