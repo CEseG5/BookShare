@@ -1,10 +1,66 @@
-.nav-tabs>li>a {
-	background-color: white;
-}
-
 .probootstrap-footer {
 	padding: 0;
-	margin: 0;
+}
+
+.probootstrap-hero h1 {
+	font-size: 30px;
+}
+
+.probootstrap-hero.probootstrap-xs-hero .probootstrap-hero-text {
+	padding: 10px;
+}
+
+/*############################################################### Profile tabs */
+#myTab {
+	margin-bottom: 20px;
+	width: 100%;
+}
+.tab-pane{
+	width: 100%;
+	min-height: 50%;
+}
+.nav-tabs>li>a {
+	font-size: 1.5em;
+	font-weight: 60;
+	background-color: white;
+}
+.nav-item{
+	min-width: 33%;
+	text-align: center;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    color: #555;
+    cursor: default;
+    background-color: #7ed321;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+}
+/*############################################################### Table */
+
+.divTable {
+	font-size: 1.3em;
+	margin: 10px auto;
+	display: table;
+	width: 100%;
+	background-color: white;
+	border-radius: 4px;
+}
+
+.divTableHeading {
+	background-color: #7ed321;
+	color: #555;
+}
+.divTableRow {
+	display: table-row;
+	padding: 1em;
+}
+.divTableCell, .divTableCellLabel, .divTableHead {
+	display: table-cell;
+	padding: 1em;
+}
+.divTableBody, .divTableHeading, .divTableFoot {
+	display: table-row-group;
 }
 
 
