@@ -9,17 +9,26 @@
           <div class="probootstrap-modal-content">
             <form action="#" class="probootstrap-form">
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Email">
+                <input type="text" class="form-control" placeholder="First Name" name="fname">
               </div> 
               <div class="form-group">
-                <input type="password" class="form-control" placeholder="Password">
+                <input type="text" class="form-control" placeholder="Last Name" name="lname">
               </div> 
               <div class="form-group">
-                <input type="password" class="form-control" placeholder="Re-type Password">
+                <input type="text" class="form-control" placeholder="Email" name="email">
               </div> 
-              <div class="form-group clearfix mb40">
-                <label for="remember" class="probootstrap-remember"><input type="checkbox" id="remember"> Remember Me</label>               
-              </div>
+              <div class="form-group">
+                <input type="password" class="form-control" placeholder="Password" name="password">
+              </div> 
+              <div class="form-group">
+                <input type="password" class="form-control" placeholder="Re-type Password" name="repeatpw">
+              </div> 
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Address" name="address">
+              </div> 
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="City" name="city">
+              </div> 
               <div class="form-group text-left">
                 <div class="row">
                   <div class="col-md-6">
