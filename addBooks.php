@@ -1,5 +1,5 @@
 <?php 
-    $page_title = "Book registration";
+    $page_title = "Add Books";
     include "includes/head.php";
     include "includes/navbar.php";
  ?>
