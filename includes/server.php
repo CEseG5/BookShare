@@ -2,6 +2,11 @@
 session_start();
 
 // initializing variables
+$first_name = '';
+$last_name = '';
+$email = '';
+$password = '';
+$repeat_password = '';
 // username = "";
 // $email    = "";
 
@@ -28,6 +33,7 @@ if (isset($_POST['submit'])) {
   if (empty($email)) { array_push($errors, "Email field is required"); } 
   
   if (empty($password)) { array_push($errors, "Password field is required"); }
+  
   if ($password != $repeat_password) {
 	array_push($errors, "The two passwords do not match");
   }
@@ -52,6 +58,5 @@ if (isset($_POST['submit'])) {
   	mysqli_query($db, $query);
   	$_SESSION['email'] = $email;
   	$_SESSION['success'] = "You are now logged in";
-  	header('location: /..index.php');
   }
 }
