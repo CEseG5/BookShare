@@ -1,4 +1,5 @@
 <?php 
+    $page_title = "Contact";
     include "includes/head.php";
     include "includes/navbar.php";
  ?>

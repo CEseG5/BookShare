@@ -1,4 +1,5 @@
 <?php 
+    $page_title = "Search Books";
     include "includes/head.php";
     include "includes/navbar.php";
  ?>

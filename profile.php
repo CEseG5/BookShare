@@ -1,7 +1,8 @@
 <?php 
-include "includes/head.php";
-include "includes/navbar.php";
-?>
+    $page_title = "My Account";
+    include "includes/head.php";
+    include "includes/navbar.php";
+ ?>
 
 <!DOCTYPE html>
 <html>
