@@ -7,7 +7,7 @@
         <div class="probootstrap-modal-flex">
           <div class="probootstrap-modal-figure" style="background-image: url(img/modal_bg.jpg);"></div>
           <div class="probootstrap-modal-content">
-            <form action="#" class="probootstrap-form">
+            <form action="#" method="POST" class="probootstrap-form">
               <div class="form-group">
                 <input type="text" class="form-control" placeholder="First Name" name="fname">
               </div> 
