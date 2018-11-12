@@ -1,12 +1,16 @@
 <?php 
-    $page_title = "My Account";
-    include "includes/head.php";
-    include "includes/navbar.php";
- ?>
+include 'includes/server.php';
+?>
 
 <!DOCTYPE html>
 <html>
+<?php 
+$page_title = "My Account";
+include "includes/head.php";
+?>
+
 <body>
+  <?php include "includes/navbar.php"; ?>
   <section class="probootstrap-hero probootstrap-xs-hero probootstrap-hero-colored">
     <div class="container">
       <div class="row">
@@ -113,7 +117,7 @@
             </div>
             <div class="divTableFoot">
               <div class="divTableRow">
-                <div class="divTableCell col-md-offset-10 col-md-2 text-right"><a href="">Add Book</a></div>
+                <div class="divTableCell col-md-offset-10 col-md-2 text-right"><a href="addBooks.php">Add Book</a></div>
               </div>
             </div>
           </div>
@@ -163,11 +167,9 @@
 
 <script src="js/scripts.min.js"></script>
 <script src="js/custom.min.js"></script>
-</body>
-</html>
 
 <?php 
-include "includes/signupForm.php";
-include "includes/loginForm.php";
 include "includes/footer.php";
 ?>
+</body>
+</html>
