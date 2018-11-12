@@ -7,12 +7,12 @@
         <div class="probootstrap-modal-flex">
           <div class="probootstrap-modal-figure" style="background-image: url(img/modal_bg.jpg);"></div>
           <div class="probootstrap-modal-content">
-            <form action="#" class="probootstrap-form">
+            <form action="index.php" method="POST" class="probootstrap-form">
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Email">
+                <input type="text" class="form-control" placeholder="Email" name="email">
               </div> 
               <div class="form-group">
-                <input type="password" class="form-control" placeholder="Password">
+                <input type="password" class="form-control" placeholder="Password" name="password">
               </div> 
               <div class="form-group clearfix mb40">
                 <label for="remember" class="probootstrap-remember"><input type="checkbox" id="remember"> Remember Me</label>
@@ -21,7 +21,7 @@
               <div class="form-group text-left">
                 <div class="row">
                   <div class="col-md-6">
-                    <input type="submit" class="btn btn-primary btn-block" value="Sign In">
+                    <input type="submit" name="login" class="btn btn-primary btn-block" value="Sign In">
                   </div>
                 </div>
               </div>
