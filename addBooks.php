@@ -55,8 +55,6 @@ include "includes/head.php";
   <script src="js/custom.min.js"></script>
 
   <?php 
-  include "includes/signupForm.php";
-  include "includes/loginForm.php";
   include "includes/footer.php";
   ?>
 
