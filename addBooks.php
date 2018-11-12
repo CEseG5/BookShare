@@ -1,5 +1,6 @@
 <?php 
 include 'includes/server.php';
+require 'includes/required.php';
 ?>
 
 <!DOCTYPE html>
