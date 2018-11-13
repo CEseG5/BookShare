@@ -31,8 +31,9 @@ include "includes/head.php";
           <div class="panel centerAlign">
            <h2>Register Form</h2>
            <p>Please enter required info, to register books</p>
+           <?php include('includes/fetchData.php'); ?>
          </div>
-         <form id="Register" method="POST">
+         <form id="Register" method="POST" action="">
           <div class="form-group">
             <label for='isbn'>Enter Book ISBN</label>
             <input type="text" name="isbn" class="form-control" id="inputISBN" placeholder="ISBN">
@@ -43,17 +44,19 @@ include "includes/head.php";
           </div>
           <div class="form-group">
             <label for="title">Enter Book Title</label>
-            <input type="text" class="form-control" id="inputTitle" placeholder="Title">
+            <input type="text" name="title" class="form-control" id="inputTitle" placeholder="Title">
           </div>        
           <div class="centerAlign">
-            <button type="submit" class="btn btn-primary">Register</button></div>
+            <button type="submit" class="btn btn-primary" name="register_books">Register</button></div>
           </form>
         </div>
-      </div>
+      </div>  
+
     </div>
   </section>
   <script src="js/scripts.min.js"></script>
   <script src="js/custom.min.js"></script>
+
 
   <?php 
   include "includes/footer.php";
