@@ -31,7 +31,7 @@ include "includes/head.php";
           <div class="panel centerAlign">
            <h2>Register Form</h2>
            <p>Please enter required info, to register books</p>
-           <?php include('includes/fetchData.php'); ?>
+           <?php include('includes/register_books.php'); ?>
          </div>
          <form id="Register" method="POST" action="">
           <div class="form-group">
