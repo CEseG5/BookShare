@@ -2,6 +2,10 @@
 	padding: 0;
 }
 
+.probootstrap-hero .probootstrap-hero-text {
+	padding-top: 150px;
+}
+
 .probootstrap-hero h1 {
 	font-size: 30px;
 }
@@ -28,7 +32,11 @@
 	min-width: 33%;
 	text-align: center;
 }
-
+.nav-link-index{
+	min-width: 50%;
+	width: 50%;
+	text-align: center;
+}
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
     color: #555;
     cursor: default;
@@ -88,3 +96,13 @@
 }
 .form-group{ text-align:left;}
 .centerAlign{text-align: center;}
+
+.errorText{
+	color: #BB6F6B;
+	padding: 0;
+	margin: 0;
+}
+
+#latest{
+	font-size: 25px;
+}
