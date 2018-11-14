@@ -85,36 +85,36 @@ include "includes/head.php";
             </div>
           </div>
         </div>
-        <!-- My books tab -->
+		<!-- My books tab -->
         <div class="tab-pane" id="mybooks" role="tabpanel" aria-labelledby="mybooks-tab">
           <div class="divTable col-md-12">
             <div class="divTableHeading">
               <div class="divTableRow">
-                <div class="divTableHead col-md-4" >Title</div>
-                <div class="divTableHead col-md-4">Author</div>
-                <div class="divTableHead col-md-2">Status</div>                
-                <div class="divTableHead col-md-2">&nbsp</div>
+                <div class="divTableHead col-md-2"></div>
+                <div class="divTableHead col-md-2">ISBN</div>
+                <div class="divTableHead col-md-3">Author</div>
+                <div class="divTableHead col-md-3">Title</div>                
+                <div class="divTableHead col-md-1">Status</div>                
+                <div class="divTableHead col-md-1">&nbsp</div>
               </div>
             </div>
             <div class="divTableBody">
-              <div class="divTableRow">
-                <div class="divTableCell col-md-4">cell1_1</div>
-                <div class="divTableCell col-md-4">cell2_1</div>
-                <div class="divTableCell col-md-2">cell3_1</div>
-                <div class="divTableCell col-md-2 text-right"><a href="">Edit</a></div>
-              </div>
-              <div class="divTableRow">
-                <div class="divTableCell col-md-4">cell1_2</div>
-                <div class="divTableCell col-md-4">cell2_2</div>
-                <div class="divTableCell col-md-2">cell3_2</div>
-                <div class="divTableCell col-md-2 text-right"><a href="">Edit</a></div>
-              </div>
-              <div class="divTableRow">
-                <div class="divTableCell col-md-4">cell1_3</div>
-                <div class="divTableCell col-md-4">cell2_3</div>
-                <div class="divTableCell col-md-2">cell3_3</div>
-                <div class="divTableCell col-md-2 text-right"><a href="">Edit</a></div>
-              </div>
+
+              <?php 
+                $query = "select * from register_books";
+                $result = mysqli_query($connection, $query);
+                
+                  while ($row = mysqli_fetch_assoc($result)){
+                    echo "<div class='divTableRow'>";
+                    echo "<div class='divTableCell col-md-2'><img src='img/img_01_book.jpg'></div>";
+                    echo "<div class='divTableCell col-md-2'>". $row['isbn'] ."</div>";   
+                    echo "<div class='divTableCell col-md-3'>". $row['author'] ."</div>";   
+                    echo "<div class='divTableCell col-md-3'>". $row['title'] ."</div>";   
+                    echo "<div class='divTableCell col-md-1'><select></div>";   
+                    echo "<div class='divTableCell col-md-1 text-right'><a href='changeBookStatus.php?isbn={$row['isbn']}'>Save</a></div>";
+                    echo "</div>";
+                }
+               ?>
             </div>
             <div class="divTableFoot">
               <div class="divTableRow">
