@@ -33,7 +33,7 @@ include "includes/head.php";
            <p>Please enter required info, to register books</p>
            <?php include('includes/register_books.php'); ?>
          </div>
-         <form id="Register" method="POST" action="">
+         <form id="Register" method="POST" action="" enctype="multipart/form-data">
           <div class="form-group">
             <label for='isbn'>Enter Book ISBN</label>
             <input type="text" name="isbn" class="form-control" id="inputISBN" placeholder="ISBN">
@@ -45,22 +45,28 @@ include "includes/head.php";
           <div class="form-group">
             <label for="title">Enter Book Title</label>
             <input type="text" name="title" class="form-control" id="inputTitle" placeholder="Title">
-          </div>        
+          </div> 
+          <div class="form-group">
+            <label for="image">Upload Image</label>
+            <input type="file" name="image" class="form-control-file" id="inputTitle" placeholder="Image">
+          </div>  
+          <?php include "includes/errors.php" ?>      
           <div class="centerAlign">
-            <button type="submit" class="btn btn-primary" name="register_books">Register</button></div>
-          </form>
-        </div>
-      </div>  
+            <button type="submit" class="btn btn-primary" name="register_books">Register</button>
+          </div>
+        </form>
+      </div>
+    </div>  
 
-    </div>
-  </section>
-  <script src="js/scripts.min.js"></script>
-  <script src="js/custom.min.js"></script>
+  </div>
+</section>
+<script src="js/scripts.min.js"></script>
+<script src="js/custom.min.js"></script>
 
 
-  <?php 
-  include "includes/footer.php";
-  ?>
+<?php 
+include "includes/footer.php";
+?>
 
 </body>
 </html> 
