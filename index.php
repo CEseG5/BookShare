@@ -101,7 +101,7 @@ include "includes/head.php";
                         $result = mysqli_query($connection, $query);
 
                         while ($row = mysqli_fetch_assoc($result)){
-                            echo "<option value='{$row['id']}'>".$row['name']."</option>";
+                            echo "<option value='{$row['name']}'>".$row['name']."</option>";
                         }
                         ?>
                     </select>
