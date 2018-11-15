@@ -107,11 +107,11 @@ include "includes/head.php";
             <div class="divTableHeading">
               <div class="divTableRow">
                 <div class="divTableHead col-md-2"></div>
-                <div class="divTableHead col-md-2">ISBN</div>
+                <!-- <div class="divTableHead col-md-2">ISBN</div> -->
                 <div class="divTableHead col-md-3">Author</div>
                 <div class="divTableHead col-md-3">Title</div>                
-                <div class="divTableHead col-md-1">Status</div>                
-                <div class="divTableHead col-md-1">&nbsp</div>
+                <div class="divTableHead col-md-2">Status</div>                
+                <div class="divTableHead col-md-2">&nbsp</div>
               </div>
             </div>
             <div class="divTableBody">
@@ -123,11 +123,15 @@ include "includes/head.php";
                   while ($row = mysqli_fetch_assoc($result)){
                     echo "<div class='divTableRow'>";
                     echo "<div class='divTableCell col-md-2'><img src='img/".$row['img_path']."'></div>";
-                    echo "<div class='divTableCell col-md-2'>". $row['isbn'] ."</div>";   
+                    // echo "<div class='divTableCell col-md-1'>". $row['isbn'] ."</div>";   
                     echo "<div class='divTableCell col-md-3'>". $row['author'] ."</div>";   
                     echo "<div class='divTableCell col-md-3'>". $row['title'] ."</div>";   
-                    echo "<div class='divTableCell col-md-1'><select></select></div>";   
-                    echo "<div class='divTableCell col-md-1 text-right'><a href='changeBookStatus.php?isbn={$row['isbn']}'>Save</a></div>";
+                    echo "<div class='divTableCell col-md-2'><select  name=''>
+                                                              <option>Registered</option>
+                                                              <option>Available</option>
+                                                              <option>Not available</option>
+                                                            </select></div>";   
+                    echo "<div class='divTableCell col-md-2 text-right'><a href='changeBookStatus.php?isbn={$row['isbn']}'>Save</a></div>";
                     echo "</div>";
                 }
                ?>
