@@ -28,16 +28,29 @@ if (isset($_POST['register'])) {
 
   // form validation: ensure that the form is correctly filled ...
   // by adding (array_push()) corresponding error unto $errors array
-  if (empty($first_name)) { array_push($errors, "First Name is required"); }
-  if (empty($last_name)) { array_push($errors, "Last Name is required"); }
-  if (empty($email)) { array_push($errors, "Email is required"); } 
-  if (empty($repeat_password)) { array_push($errors, "Password is required"); }  
-  if (empty($password)) { array_push($errors, "Password verification is required"); }
-  if (empty($address)) { array_push($errors, "Address is required"); }
-  
-  if ($password != $repeat_password) {
-	array_push($errors, "Password doesn't match");
+  if (empty($first_name) && empty($last_name) && empty($email) && empty($repeat_password) && empty($password) && empty($address) ) { array_push($errors, "Please fill in all fields."); }
+  else {
+    if ($password != $repeat_password) {
+       array_push($errors, "Password doesn't match");
+    }
+    if(!preg_match('/^[A-Z][a-zA-Z]{3,}(?: [A-Z][a-zA-Z]*){0,2}$/',$first_name)){
+      array_push($errors, "Invalid first name given!");
+    }
+
+    if(!preg_match('/^[A-Z][a-zA-Z]{2,}(?: [A-Z][a-zA-Z]*){0,2}$/',$last_name)){
+      array_push($errors, "Invalid last name given!");
+    } 
+
+    if(!preg_match('/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/', $email)){
+      array_push($errors, "Email is not valid");
+    }
+
+    //  if(!preg_match('', $password)){
+    //   array_push($errors, "Password must be ..");
+    // }
+
   }
+
 
   // first check the database to make sure 
   // a user does not already exist with the same email
