@@ -44,22 +44,38 @@ include "includes/head.php";
 
         <!-- Tab content -->
         <!-- Profile tab -->
+	<?php
+          $query = "select * from users where email = '{$_SESSION['email']}'";
+          $result = mysqli_query($connection, $query);
+          $first_name = '';
+          $last_name = '';
+          $email = '';
+          $address='';
+          $city='';
+          while($row = mysqli_fetch_assoc($result)){
+            $first_name = $row['first_name'];
+            $last_name = $row['last_name'];
+            $email = $row['email'];
+            $address=$row['address'];
+            $city= $row['city'];
+          }
+        ?>
         <div class="tab-content">
           <div class="tab-pane active" id="account" role="tabpanel" aria-labelledby="account-tab">
            <div class="divTable col-md-12">
             <div class="divTableBody">
               <div class="divTableRow ">
                 <div class="divTableCellLabel col-md-4">First Name</div>
-                <div class="divTableCell col-md-6">Emir</div>
-                <div class="divTableCell col-md-2 text-right"><a href="">Edit</a></div>
+                <div class="divTableCell col-md-6"><?= $first_name;  ?></div>
+                <div class="divTableCell col-md-2 text-right"><a href="update_profile.php">Edit</a></div>
               </div>
               <div class="divTableRow">
                 <div class="divTableCellLabel  col-md-4">Last Name</div>
-                <div class="divTableCell col-md-6">Uka</div>
+                <div class="divTableCell col-md-6"><?= $last_name;  ?></div>
               </div>
               <div class="divTableRow">
                 <div class="divTableCellLabel col-md-4">Email</div>
-                <div class="divTableCell col-md-6">emir@email.com</div>
+                <div class="divTableCell col-md-6"><?= $email;  ?></div>
               </div>
             </div>
           </div>
@@ -67,12 +83,12 @@ include "includes/head.php";
             <div class="divTableBody">
               <div class="divTableRow">
                 <div class="divTableCellLabel col-md-4">Address</div>
-                <div class="divTableCell col-md-6">Street Name, nr. 8</div>
+                <div class="divTableCell col-md-6"><?= $address;  ?></div>
                 <div class="divTableCell col-md-2 text-right"><a href="">Edit</a></div>
               </div>
               <div class="divTableRow">
                 <div class="divTableCellLabel col-md-4">City</div>
-                <div class="divTableCell col-md-6">Pristina</div>
+                <div class="divTableCell col-md-6"><?= $city;  ?></div>
               </div>
             </div>
           </div>
