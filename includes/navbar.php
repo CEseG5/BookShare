@@ -22,14 +22,11 @@
           <li><a href="profile.php">Profile</a></li>
           <li class="probootstra-cta-button last"><a href="index.php?logout='1'"  class="btn btn-ghost">Log Out</a></li>
           <?php else: ?>
-            <li class="probootstra-cta-button"><a href="#" class="btn" data-toggle="modal" data-target="#loginModal">Log in</a></li>
-            <li class="probootstra-cta-button last"><a href="#" class="btn btn-ghost" data-toggle="modal" data-target="#signupModal">Sign up</a></li>
+            <!-- <li class="probootstra-cta-button"><a href="#" class="btn" data-toggle="modal" data-target="#loginModal">Log in</a></li>
+            <li class="probootstra-cta-button last"><a href="#" class="btn btn-ghost" data-toggle="modal" data-target="#signupModal">Sign up</a></li> -->
           <?php endif; ?>
 
         </ul>
       </div>
     </div>
   </nav>
-
-  <?php include 'includes/errors.php'; ?>
-  <?php include 'includes/logout.php'; ?>
