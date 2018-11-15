@@ -106,11 +106,11 @@ include "includes/head.php";
                 
                   while ($row = mysqli_fetch_assoc($result)){
                     echo "<div class='divTableRow'>";
-                    echo "<div class='divTableCell col-md-2'><img src='img/img_01_book.jpg'></div>";
+                    echo "<div class='divTableCell col-md-2'><img src='img/".$row['img_path']."'></div>";
                     echo "<div class='divTableCell col-md-2'>". $row['isbn'] ."</div>";   
                     echo "<div class='divTableCell col-md-3'>". $row['author'] ."</div>";   
                     echo "<div class='divTableCell col-md-3'>". $row['title'] ."</div>";   
-                    echo "<div class='divTableCell col-md-1'><select></div>";   
+                    echo "<div class='divTableCell col-md-1'><select></select></div>";   
                     echo "<div class='divTableCell col-md-1 text-right'><a href='changeBookStatus.php?isbn={$row['isbn']}'>Save</a></div>";
                     echo "</div>";
                 }
@@ -165,9 +165,6 @@ include "includes/head.php";
     </div>
   </div>
 </section>
-
-<script src="js/scripts.min.js"></script>
-<script src="js/custom.min.js"></script>
 
 <?php 
 include "includes/footer.php";
