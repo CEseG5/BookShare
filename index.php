@@ -94,7 +94,17 @@ include "includes/head.php";
                       <input type="text" class="form-control" placeholder="Address" name="address" value="<?= $address ?>">
                     </div> 
                     <div class="form-group">
-                      <input type="text" class="form-control" placeholder="City" name="city" value="<?= $city ?>">
+                      <select class="custom-select" placeholder="City" name="city">
+                        <option>City</option>
+                        <?php
+                        $query = "select * from cities";
+                        $result = mysqli_query($connection, $query);
+
+                        while ($row = mysqli_fetch_assoc($result)){
+                            echo "<option value='{$row['id']}'>".$row['name']."</option>";
+                        }
+                        ?>
+                    </select>
                     </div>
                     <div class="form-group clearfix mb40">
                       <label for="remember" class="probootstrap-remember"><input type="checkbox" id="remember01">Remember Me</label>
