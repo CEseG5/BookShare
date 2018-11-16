@@ -40,17 +40,16 @@ include "includes/head.php";
            while($row = mysqli_fetch_assoc($result)){
             $first_name = $row['first_name'];
             $last_name = $row['last_name'];
-            $email = $row['email'];
+            //$email = $row['email'];
           }
           $newName = '';
           $newLastName = '';
-          $newEmail = '';
+          //$newEmail = '';
           $errors = array();
           if(isset($_POST['update_profile'])){
             $newName = mysqli_real_escape_string($connection,$_POST['nfname']);
             $newLastName = mysqli_real_escape_string($connection,$_POST['nlastname']);
-            $newEmail = mysqli_real_escape_string($connection,$_POST['nemail']);
-            if (empty($newName) && empty($newLastName) && empty($newEmail)) { 
+            if (empty($newName) && empty($newLastName)) { 
               array_push($errors, "you cannot leave empty fields!"); 
             }else {
                 //Description: First & last name must contain with a string, upper case letter and must be of length 4.
@@ -61,14 +60,14 @@ include "includes/head.php";
               array_push($errors, "Invalid last name given!");
             } 
                 //Description:Email validator that adheres directly to the specification for email address naming. It allows for everything from ipaddress and country-code domains, to very rare characters in the username.
-            if(!preg_match('/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/', $newEmail)){
+            /*if(!preg_match('/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/', $newEmail)){
               array_push($errors, "Email is not valid");
-            }
+            }*/
           }
           if (count($errors) == 0) {      
-            $sql   = "UPDATE users SET first_name='{$newName}', last_name = '{$newLastName}', email = '{$newEmail}' WHERE email ='{$loggedin}'";
+            $sql   = "UPDATE users SET first_name='{$newName}', last_name = '{$newLastName}' WHERE email ='{$loggedin}'";
             $res  = mysqli_query($connection,$sql) or die("Could not update ".mysqli_error($connection)); 
-            $_SESSION['email'] = $newEmail;
+            $_SESSION['email'] = $loggedin;
             header('location: profile.php');
           }
         }
@@ -83,10 +82,6 @@ include "includes/head.php";
           <label for="author">Enter Your last name:</label>
           <input type="text" name="nlastname" class="form-control" value="<?= $last_name ?>">
         </div>
-        <div class="form-group">
-          <label for="title">Enter your email:</label>
-          <input type="text" name="nemail" class="form-control" value="<?= $email ?>">
-        </div> 
         <?php include "includes/errors.php" ?>      
         <div class="centerAlign">
           <button type="submit" class="btn btn-primary" name="update_profile">Update</button>
