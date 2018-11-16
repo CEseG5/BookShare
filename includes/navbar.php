@@ -15,9 +15,10 @@
 
     <div id="navbar-collapse" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
+
       	<li><a href="faq.php">FAQ</a></li>
         <li><a href="contact.php">Contact</a></li>
-
+        <li><a href="List_Books.php">Books</a></li>
         <?php  if (isset($_SESSION['email'])) : ?>
           <li><a href="profile.php">Profile</a></li>
           <li class="probootstra-cta-button last"><a href="index.php?logout='1'"  class="btn btn-ghost">Log Out</a></li>
