@@ -33,7 +33,7 @@
 
             move_uploaded_file($_FILES['image']['tmp_name'], "img/".$img_path);
           }
-          header('location: profile.php');
+          header('location: List_Books.php');
         }
       }
  ?>
