@@ -36,33 +36,28 @@ include "includes/head.php";
            $result = mysqli_query($connection, $query);
            $first_name = '';
            $last_name = '';
-           $email = '';
+
            while($row = mysqli_fetch_assoc($result)){
             $first_name = $row['first_name'];
             $last_name = $row['last_name'];
-            //$email = $row['email'];
           }
+
           $newName = '';
           $newLastName = '';
-          //$newEmail = '';
           $errors = array();
+
           if(isset($_POST['update_profile'])){
             $newName = mysqli_real_escape_string($connection,$_POST['nfname']);
             $newLastName = mysqli_real_escape_string($connection,$_POST['nlastname']);
             if (empty($newName) && empty($newLastName)) { 
               array_push($errors, "you cannot leave empty fields!"); 
             }else {
-                //Description: First & last name must contain with a string, upper case letter and must be of length 4.
-             if(!preg_match('/^[A-Z][a-zA-Z]{3,}(?: [A-Z][a-zA-Z]*){0,2}$/',$newName)){
+             if(!preg_match('/^[A-Z][a-zA-Z]{2,}(?: [A-Z][a-zA-Z]*){0,2}$/',$newName)){
               array_push($errors, "Invalid first name given!");
             }
-            if(!preg_match('/^[A-Z][a-zA-Z]{3,}(?: [A-Z][a-zA-Z]*){0,2}$/',$newLastName)){
+            if(!preg_match('/^[A-Z][a-zA-Z]{2,}(?: [A-Z][a-zA-Z]*){0,2}$/',$newLastName)){
               array_push($errors, "Invalid last name given!");
             } 
-                //Description:Email validator that adheres directly to the specification for email address naming. It allows for everything from ipaddress and country-code domains, to very rare characters in the username.
-            /*if(!preg_match('/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/', $newEmail)){
-              array_push($errors, "Email is not valid");
-            }*/
           }
           if (count($errors) == 0) {      
             $sql   = "UPDATE users SET first_name='{$newName}', last_name = '{$newLastName}' WHERE email ='{$loggedin}'";
@@ -73,6 +68,7 @@ include "includes/head.php";
         }
         ?>
       </div>
+
       <form id="Register" method="POST" action="">
         <div class="form-group">
           <label for='isbn'>Enter your name:</label>
@@ -87,6 +83,7 @@ include "includes/head.php";
           <button type="submit" class="btn btn-primary" name="update_profile">Update</button>
         </div>
       </form>
+      
     </div>
   </div>  
 </div>
