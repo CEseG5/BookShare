@@ -18,14 +18,11 @@
 
       	<li><a href="faq.php">FAQ</a></li>
         <li><a href="contact.php">Contact</a></li>
-        <li><a href="List_Books.php">Books</a></li>
         <?php  if (isset($_SESSION['email'])) : ?>
-          <li><a href="profile.php">Profile</a></li>
-          <li class="probootstra-cta-button last"><a href="index.php?logout='1'"  class="btn btn-ghost">Log Out</a></li>
-          <?php else: ?>
-            <!-- <li class="probootstra-cta-button"><a href="#" class="btn" data-toggle="modal" data-target="#loginModal">Log in</a></li>
-            <li class="probootstra-cta-button last"><a href="#" class="btn btn-ghost" data-toggle="modal" data-target="#signupModal">Sign up</a></li> -->
-          <?php endif; ?>
+         <li><a href="books.php">Books</a></li>
+         <li><a href="profile.php">Profile</a></li>
+         <li class="probootstra-cta-button last"><a href="index.php?logout='1'"  class="btn btn-ghost">Log Out</a></li>
+        <?php endif; ?>
 
         </ul>
       </div>
