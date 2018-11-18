@@ -30,31 +30,29 @@ include "includes/head.php";
         <!-- Nav tabs -->            
         <div> 
           <ul class="nav nav-fill nav-tabs" id="myTab" role="tablist" ata-animate-effect="fadeIn" >
-            <li class="active nav-item">
-              <a class="nav-link" id="account-tab" data-toggle="tab" href="#account" role="tab" aria-controls="account" aria-selected="false" >My Account</a>
-            <li class="nav-item ">
-              <a class="nav-link" id="rentals-tab" data-toggle="tab" href="#rentals" role="tab" aria-controls="rentals" aria-selected="false">Current Rentals</a>
+            <li class="active nav-link-profile">
+              <a class="nav-link-profile" id="account-tab" data-toggle="tab" href="#account" role="tab" aria-controls="account" aria-selected="false" >My Account</a>
             </li>
           </ul>
         </div>
 
         <!-- Tab content -->
         <!-- Profile tab -->
-	<?php
-          $query = "select * from users where email = '{$_SESSION['email']}'";
-          $result = mysqli_query($connection, $query);
-          $first_name = '';
-          $last_name = '';
-          $email = '';
-          $address='';
-          $city='';
-          while($row = mysqli_fetch_assoc($result)){
-            $first_name = $row['first_name'];
-            $last_name = $row['last_name'];
-            $email = $row['email'];
-            $address=$row['address'];
-            $city= $row['city'];
-          }
+        <?php
+        $query = "SELECT u.*, c.name as city from users u LEFT JOIN cities c ON u.city_id = c.id  where u.email = '{$_SESSION['email']}'";
+        $result = mysqli_query($connection, $query);
+        $first_name = '';
+        $last_name = '';
+        $email = '';
+        $address='';
+        $city='';
+        while($row = mysqli_fetch_assoc($result)){
+          $first_name = $row['first_name'];
+          $last_name = $row['last_name'];
+          $email = $row['email'];
+          $address=$row['address'];
+          $city= $row['city'];
+        }
         ?>
         <div class="tab-content">
           <div class="tab-pane active" id="account" role="tabpanel" aria-labelledby="account-tab">
@@ -68,10 +66,6 @@ include "includes/head.php";
               <div class="divTableRow">
                 <div class="divTableCellLabel  col-md-4">Last Name</div>
                 <div class="divTableCell col-md-6"><?= $last_name;  ?></div>
-              </div>
-              <div class="divTableRow">
-                <div class="divTableCellLabel col-md-4">Email</div>
-                <div class="divTableCell col-md-6"><?= $email;  ?></div>
               </div>
             </div>
           </div>
@@ -91,53 +85,14 @@ include "includes/head.php";
           <div class="divTable col-md-12">
             <div class="divTableBody">
               <div class="divTableRow">
-                <div class="divTableCell col-md-offset-4 col-md-4 text-center"><a href="">Delete Account</a></div>
-                <div class="divTableCell col-md-4 text-right"><a href="">Change Password</a></div>
-              </div>
-            </div>
-          </div>
-        </div>
-		<!-- My books tab -->
-      <!--Books in new file-->
-        <!-- Rentals tab -->
-        <div class="tab-pane" id="rentals" role="tabpanel" aria-labelledby="rentals-tab">
-          <div class="divTable col-md-12">
-            <div class="divTableHeading">
-              <div class="divTableRow">
-                <div class="divTableHead col-md-4">Title</div>
-                <div class="divTableHead col-md-3">Author</div>
-                <div class="divTableHead col-md-2">Due Date</div>
-                <div class="divTableHead col-md-2">Status</div>                
-                <div class="divTableHead col-md-1">&nbsp</div>
-              </div>
-            </div>
-            <div class="divTableBody">
-              <div class="divTableRow">
-                <div class="divTableCell col-md-4">cell1_1</div>
-                <div class="divTableCell col-md-3">cell2_1</div>
-                <div class="divTableCell col-md-2">cell3_1</div>
-                <div class="divTableCell col-md-2">cell3_1</div>
-                <div class="divTableCell col-md-1 text-right"><a href="">Edit</a></div>
-              </div>
-              <div class="divTableRow">
-                <div class="divTableCell col-md-4">cell1_2</div>
-                <div class="divTableCell col-md-3">cell2_2</div>
-                <div class="divTableCell col-md-2">cell3_2</div>
-                <div class="divTableCell col-md-2">cell3_2</div>
-                <div class="divTableCell col-md-1 text-right"><a href="">Edit</a></div>
-              </div>
-              <div class="divTableRow">
-                <div class="divTableCell col-md-4">cell1_3</div>
-                <div class="divTableCell col-md-3">cell2_3</div>
-                <div class="divTableCell col-md-2">cell3_3</div>
-                <div class="divTableCell col-md-2">cell3_3</div>
-                <div class="divTableCell col-md-1 text-right"><a href="">Edit</a></div>
+                <div class="divTableCellLabel col-md-4">Email</div>
+                <div class="divTableCell col-md-5"><?= $email;  ?></div>
+                <div class="divTableCell col-md-3 text-right"><a href="">Change Password</a></div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </section>
