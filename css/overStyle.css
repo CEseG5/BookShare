@@ -1,112 +1,128 @@
 .probootstrap-footer {
-	padding: 0;
+    padding: 0;
 }
 
 .probootstrap-hero .probootstrap-hero-text {
-	padding-top: 50px;
+    padding-top: 50px;
 }
 
 .probootstrap-hero h1 {
-	font-size: 30px;
+    font-size: 30px;
 }
 
 .probootstrap-hero.probootstrap-xs-hero .probootstrap-hero-text {
-	padding: 10px;
+    padding: 10px;
 }
 
-/*############################################################### Profile tabs */
 #myTab {
-	margin-bottom: 20px;
-	width: 100%;
+    margin-bottom: 20px;
+    width: 100%;
 }
 .tab-pane{
-	width: 100%;
-	min-height: 50%;
+    width: 100%;
+    min-height: 50%;
 }
 .nav-tabs>li>a {
-	font-size: 1.5em;
-	font-weight: 60;
-	background-color: white;
+    font-size: 1.5em;
+    font-weight: 60;
+    background-color: white;
 }
 .nav-item{
-	min-width: 33%;
-	text-align: center;
+    min-width: 33%;
+    text-align: center;
+}
+.nav-link-profile{
+    min-width: 100%;
+    text-align: center;
 }
 .nav-link-index{
-	min-width: 50%;
-	width: 50%;
-	text-align: center;
+    min-width: 50%;
+    width: 50%;
+    text-align: center;
 }
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
-    color: #555;
-    cursor: default;
-    background-color: #7ed321;
-    border: 1px solid #ddd;
-    border-bottom-color: transparent;
+   color: #555;
+   cursor: default;
+   background-color: #7ed321;
+   border: 1px solid #ddd;
+   border-bottom-color: transparent;
 }
-/*############################################################### Table */
+/*############################################################### Table* /
 
 
 .divTable {
-	font-size: 1.3em;
-	margin: 10px auto;
-	display: table;
-	width: 100%;
-	background-color: white;
-	border-radius: 4px;
+    font-size: 1.3em;
+    margin: 10px auto;
+    display: table;
+    width: 100%;
+    background-color: white;
+    border-radius: 4px;
 }
 
 .divTableHeading {
-	background-color: #7ed321;
-	color: #555;
+    background-color: #7ed321;
+    color: #555;
 }
 .divTableRow {
-	display: table-row;
-	padding: 1em;
+    display: table-row;
+    padding: 1em;
 }
 .divTableCell, .divTableCellLabel, .divTableHead {
-	display: table-cell;
-	padding: 1em;
+    display: table-cell;
+    padding: 1em;
 }
 .divTableBody, .divTableHeading, .divTableFoot {
-	display: table-row-group;
+    display: table-row-group;
 }
 
-/*######### addBook Style ####### */
+/*######### addBook Style #######* /
 .panel h2{ color:#444444; font-size:24px; margin:0 0 8px 0;}
 .panel p { color:#777777; font-size:18px; margin-bottom:20px; line-height:24px;}
 
 .register-form .form-control {
-  background: #f7f7f7 none repeat scroll 0 0;
-  border: 1px solid #d4d4d4;
-  border-radius: 4px;
-  font-size: 14px;
-  height: 40px;
-  line-height: 50px;
+ background: #f7f7f7 none repeat scroll 0 0;
+ border: 1px solid #d4d4d4;
+ border-radius: 4px;
+ font-size: 14px;
+ height: 40px;
+ line-height: 50px;
 }
 .custom-select{
-    min-width: 100%;
-    height: 46px;
+   min-width: 100%;
+   height: 46px;
+   padding: 6px 12px;
 }
 .main-div {
-  background: #ffffff none repeat scroll 0 0;
-  border-radius: 2px;
-  margin: 0px auto 0px;
-  max-width: 40%;;
+ background: #ffffff none repeat scroll 0 0;
+ border-radius: 2px;
+ margin: 0px auto 0px;
+ max-width: 40%;;
 }
 
 .register-form .form-group {
-  margin-bottom:10px;
+ margin-bottom:10px;
 }
 .form-group{ text-align:left;}
 .centerAlign{text-align: center;}
 
 .errorText{
-	color: #BB6F6B;
-	padding: 0;
-	margin: 0;
+    color: #BB6F6B;
+    padding: 0;
+    margin: 0;
 }
 
 #latest{
-	font-size: 25px;
+    font-size: 25px;
+}
+
+#searchbox {
+    padding: 12px 0 15px 15px;
+    width: 66%;
+    border: 1px solid #83dc22;
+}
+
+#filter {
+    padding: 15px 0 18px 18px;
+    width: 16%;
+    border: 1px solid #83dc22;
 }
