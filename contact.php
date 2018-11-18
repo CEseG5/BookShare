@@ -53,12 +53,7 @@ include "includes/head.php";
     </div>
   </section>
   
-  <script src="js/scripts.min.js"></script>
-  <script src="js/custom.min.js"></script>
-
   <?php 
-  include "includes/signupForm.php";
-  include "includes/loginForm.php";
   include "includes/footer.php";
   ?>
   
