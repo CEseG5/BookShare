@@ -24,11 +24,11 @@ if (isset($_POST['register'])) {
   $password = mysqli_real_escape_string($connection, $_POST['password']);
   $repeat_password = mysqli_real_escape_string($connection, $_POST['repeatpw']);
   $address = mysqli_real_escape_string($connection, $_POST['address']);
-  $city = mysqli_real_escape_string($connection, $_POST['city']);
+  $city = $_POST['city'];
 
   // form validation: ensure that the form is correctly filled ...
   // by adding (array_push()) corresponding error unto $errors array
-  if (empty($first_name) && empty($last_name) && empty($email) && empty($repeat_password) && empty($password) && empty($address) ) { array_push($errors, "Please fill in all fields."); }
+  if (empty($first_name) || empty($last_name) || empty($email) || empty($repeat_password) || empty($password) || empty($address) || ($city == 0)){ array_push($errors, "Please fill in all fields."); }
   else {
     if ($password != $repeat_password) {
        array_push($errors, "Password doesn't match");
@@ -45,16 +45,14 @@ if (isset($_POST['register'])) {
       array_push($errors, "Email is not valid");
     }
 
-    //  if(!preg_match('', $password)){
-    //   array_push($errors, "Password must be ..");
-    // }
+    if(!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/', $password)){
+      array_push($errors, "Password is not valid");
+    }
 
   }
 
-
-  // first check the database to make sure 
-  // a user does not already exist with the same email
-  $user_check_query = "SELECT * FROM users WHERE email='$email' LIMIT 1";
+  // first check the database to make sure a user does not already exist with the same email
+  $user_check_query = "SELECT * FROM users WHERE email='$email'";
   $result = mysqli_query($connection, $user_check_query);
   $user = mysqli_fetch_assoc($result);
   
@@ -67,11 +65,10 @@ if (isset($_POST['register'])) {
   if (count($errors) == 0) {
   	$password = md5($password);//encrypt the password before saving in the database
 
-  	$query = "INSERT INTO users (first_name, last_name, email, password, address, city) 
+  	$query = "INSERT INTO users (first_name, last_name, email, password, address, city_id) 
   			   VALUES('$first_name', '$last_name', '$email','$password','$address','$city')";
   	mysqli_query($connection, $query);
   	$_SESSION['email'] = $email;
-  	$_SESSION['success'] = "You are now logged in";
     header('location: index.php');
   }
 }
@@ -83,9 +80,17 @@ if (isset($_POST['login'])) {
 
   if (empty($email)) {
     array_push($errors, "Email is required");
+  }else {
+    if(!preg_match('/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/', $email)){
+      array_push($errors, "Email is not valid");
+    }
   }
   if (empty($password)) {
     array_push($errors, "Password is required");
+  }else {
+     if(!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/', $password)){
+      array_push($errors, "Password is not valid");
+    }
   }
 
   if (count($errors) == 0) {
@@ -94,7 +99,6 @@ if (isset($_POST['login'])) {
     $results = mysqli_query($connection, $query);
     if (mysqli_num_rows($results) == 1) {
       $_SESSION['email'] = $email;
-      // $_SESSION['success'] = "You are now logged in";
       header('location: index.php');
     }else {
       array_push($errors, "Wrong email/password combination");
@@ -102,6 +106,7 @@ if (isset($_POST['login'])) {
   }
 }
 
+// LOG OUT USER
 if (isset($_GET['logout'])) {
   session_destroy();
   unset($_SESSION['email']);
