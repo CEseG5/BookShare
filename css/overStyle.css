@@ -47,7 +47,7 @@
    border: 1px solid #ddd;
    border-bottom-color: transparent;
 }
-/*############################################################### Table* /
+/*############################################################### Table*/
 
 
 .divTable {
@@ -75,7 +75,7 @@
     display: table-row-group;
 }
 
-/*######### addBook Style #######* /
+/*######### addBook Style #######*/
 .panel h2{ color:#444444; font-size:24px; margin:0 0 8px 0;}
 .panel p { color:#777777; font-size:18px; margin-bottom:20px; line-height:24px;}
 
