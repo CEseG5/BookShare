@@ -6,7 +6,7 @@ require 'includes/required.php';
 <!DOCTYPE html>
 <html>
 <?php 
-$page_title = "My Account";
+$page_title = "Books";
 include "includes/head.php";
 ?>
 
@@ -28,59 +28,140 @@ include "includes/head.php";
       <div class="col-md-12 text-left probootstrap-hero-text">
 
         <!-- Nav tabs -->            
-        <!-- <div> 
+        <div> 
           <ul class="nav nav-fill nav-tabs" id="myTab" role="tablist" ata-animate-effect="fadeIn" >
-            <li class="nav-item">
+            <li class="active nav-item">
               <a class="nav-link" id="mybooks-tab" data-toggle="tab" href="#mybooks" role="tab" aria-controls="mybooks" aria-selected="false">My Books</a>
             </li>
+            <li class="nav-item ">
+              <a class="nav-link" id="rentals-tab" data-toggle="tab" href="#rentals" role="tab" aria-controls="rentals" aria-selected="false">Current Rentals</a>
+            </li>            
+            <li class="nav-item">
+              <a class="nav-link" id="requests-tab" data-toggle="tab" href="#requests" role="tab" aria-controls="requests" aria-selected="false" >Requests</a>
+            </li>
           </ul>
-        </div> -->
+        </div>
 
         <!-- Tab content -->
-    <!-- My books tab -->
-        <div class="tab-pane" id="mybooks" role="tabpanel" aria-labelledby="mybooks-tab">
-          <div class="divTable col-md-12">
-            <div class="divTableHeading">
-              <div class="divTableRow">
-                <div class="divTableHead col-md-2"></div>
-                <!-- <div class="divTableHead col-md-2">ISBN</div> -->
-                <div class="divTableHead col-md-3">Author</div>
-                <div class="divTableHead col-md-3">Title</div>                
-                <div class="divTableHead col-md-2">Status</div>                
-                <div class="divTableHead col-md-2">&nbsp</div>
+        <div class="tab-content">
+          <!-- My books tab -->
+          <div class="tab-pane active" id="mybooks" role="tabpanel" aria-labelledby="mybooks-tab">
+            <div class="divTable col-md-12">
+              <div class="divTableHeading">
+                <div class="divTableRow">
+                  <div class="divTableHead col-md-2"></div>
+                  <div class="divTableHead col-md-3">Author</div>
+                  <div class="divTableHead col-md-3">Title</div>                
+                  <div class="divTableHead col-md-2">Status</div>                
+                  <div class="divTableHead col-md-2">&nbsp</div>
+                </div>
               </div>
-            </div>
-            <div class="divTableBody">
+              <div class="divTableBody">
 
-              <?php 
-                $query = "select * from register_books";
+                <?php 
+                $query = "SELECT b.img_name, b.title, b.author, u.email, ub.state, ub.user_id, ub.book_id FROM books b
+                LEFT JOIN user_books ub on b.isbn = ub.book_id 
+                LEFT JOIN users u on ub.user_id = u.id 
+                WHERE u.email = '{$_SESSION['email']}' ";
                 $result = mysqli_query($connection, $query);
                 
-                  while ($row = mysqli_fetch_assoc($result)){
-                    echo "<div class='divTableRow'>";
-                    echo "<div class='divTableCell col-md-2'><img src='img/".$row['img_path']."'></div>";
-                    // echo "<div class='divTableCell col-md-1'>". $row['isbn'] ."</div>";   
-                    echo "<div class='divTableCell col-md-3'>". $row['author'] ."</div>";   
-                    echo "<div class='divTableCell col-md-3'>". $row['title'] ."</div>";   
-                    echo "<div class='divTableCell col-md-2'><select  name=''>
-                                                              <option>Registered</option>
-                                                              <option>Available</option>
-                                                              <option>Not available</option>
-                                                            </select></div>";   
-                    echo "<div class='divTableCell col-md-2 text-right'><a href='changeBookStatus.php?isbn={$row['isbn']}'>Save</a></div>";
-                    echo "</div>";
-                }
+                while ($row = mysqli_fetch_assoc($result)){
+                 $id = $row['user_id'].$row['book_id'];
+                 echo "<div class='divTableRow'>";
+                 echo "<div class='divTableCell col-md-2'><img src='img/".$row['img_name']."'></div>";
+                 echo "<div class='divTableCell col-md-3'>". $row['author'] ."</div>";   
+                 echo "<div class='divTableCell col-md-3'>". $row['title'] ."</div>";   
+                 echo "<div class='divTableCell col-md-2'><select  name='state'>
+                 <option value='1'>Available</option>
+                 <option value='0'>Not available</option>
+                 </select></div>";   
+                 echo "<div class='divTableCell col-md-2 text-right'><a href='changeBookStatus.php?isbn=$id'>Save</a></div>";
+                 echo "</div>";
+               }
                ?>
-            </div>
-            <div class="divTableFoot">
+             </div>
+             <div class="divTableFoot">
               <div class="divTableRow">
                 <div class="divTableCell col-md-offset-10 col-md-2 text-right"><a href="addBooks.php">Add Book</a></div>
               </div>
             </div>
           </div>
         </div>
+        <!-- Rentals tab -->
+        <div class="tab-pane" id="rentals" role="tabpanel" aria-labelledby="rentals-tab">
+          <div class="divTable col-md-12">
+            <div class="divTableHeading">
+              <div class="divTableRow">
+                <div class="divTableHead col-md-4">Title</div>
+                <div class="divTableHead col-md-3">Author</div>
+                <div class="divTableHead col-md-2">Due Date</div>
+                <div class="divTableHead col-md-2">Status</div>                
+                <div class="divTableHead col-md-1">&nbsp</div>
+              </div>
+            </div>
+            <div class="divTableBody">
+              <div class="divTableRow">
+                <div class="divTableCell col-md-4">cell1_1</div>
+                <div class="divTableCell col-md-3">cell2_1</div>
+                <div class="divTableCell col-md-2">cell3_1</div>
+                <div class="divTableCell col-md-2">cell3_1</div>
+                <div class="divTableCell col-md-1 text-right"><a href="">Edit</a></div>
+              </div>
+              <div class="divTableRow">
+                <div class="divTableCell col-md-4">cell1_2</div>
+                <div class="divTableCell col-md-3">cell2_2</div>
+                <div class="divTableCell col-md-2">cell3_2</div>
+                <div class="divTableCell col-md-2">cell3_2</div>
+                <div class="divTableCell col-md-1 text-right"><a href="">Edit</a></div>
+              </div>
+              <div class="divTableRow">
+                <div class="divTableCell col-md-4">cell1_3</div>
+                <div class="divTableCell col-md-3">cell2_3</div>
+                <div class="divTableCell col-md-2">cell3_3</div>
+                <div class="divTableCell col-md-2">cell3_3</div>
+                <div class="divTableCell col-md-1 text-right"><a href="">Edit</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Requests tab -->
+        <div class="tab-pane" id="requests" role="tabpanel" aria-labelledby="requests-tab">
+          <div class="divTable col-md-12">
+            <div class="divTableHeading">
+              <div class="divTableRow">
+                <div class="divTableHead col-md-4">Title</div>
+                <div class="divTableHead col-md-3">Author</div>
+                <div class="divTableHead col-md-2">Due Date</div>
+                <div class="divTableHead col-md-2">Status</div>                
+                <div class="divTableHead col-md-1">&nbsp</div>
+              </div>
+            </div>
+            <div class="divTableBody">
+              <div class="divTableRow">
+                <div class="divTableCell col-md-4">cell1_1</div>
+                <div class="divTableCell col-md-3">cell2_1</div>
+                <div class="divTableCell col-md-2">cell3_1</div>
+                <div class="divTableCell col-md-2">cell3_1</div>
+                <div class="divTableCell col-md-1 text-right"><a href="">Edit</a></div>
+              </div>
+              <div class="divTableRow">
+                <div class="divTableCell col-md-4">cell1_2</div>
+                <div class="divTableCell col-md-3">cell2_2</div>
+                <div class="divTableCell col-md-2">cell3_2</div>
+                <div class="divTableCell col-md-2">cell3_2</div>
+                <div class="divTableCell col-md-1 text-right"><a href="">Edit</a></div>
+              </div>
+              <div class="divTableRow">
+                <div class="divTableCell col-md-4">cell1_3</div>
+                <div class="divTableCell col-md-3">cell2_3</div>
+                <div class="divTableCell col-md-2">cell3_3</div>
+                <div class="divTableCell col-md-2">cell3_3</div>
+                <div class="divTableCell col-md-1 text-right"><a href="">Edit</a></div>
+              </div>        
+            </div>
+          </div>
+        </div>
       </div>
-
     </div>
   </div>
 </section>
