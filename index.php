@@ -27,11 +27,11 @@ include "includes/head.php";
       </div>
     </section>
     <section class="probootstrap-hero">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-8 col-md-offset-2 text-center probootstrap-hero-text pb0 probootstrap-animate" data-animate-effect="fadeIn">
-
-            <?php  if (!isset($_SESSION['email'])) : ?>
+      <div class="container">       
+        <?php  if (!isset($_SESSION['email'])) : ?>
+          <!-- BEFORE LOGIN STARTS HERE -->
+          <div class="row">                   
+            <div class="col-md-8 col-md-offset-2 text-center probootstrap-hero-text pb0 probootstrap-animate" data-animate-effect="fadeIn">
               <p>
                 <div class="col-md-offset-1 col-md-10"> 
                   <ul class="nav nav-fill nav-tabs" id="myTab" role="tablist" ata-animate-effect="fadeIn" >
@@ -94,17 +94,17 @@ include "includes/head.php";
                       <input type="text" class="form-control" placeholder="Address" name="address" value="<?= $address ?>">
                     </div> 
                     <div class="form-group">
-                      <select class="custom-select" placeholder="City" name="city">
-                        <option>City</option>
+                      <select class="custom-select" name="city">
+                        <option value="">City</option>
                         <?php
                         $query = "select * from cities";
                         $result = mysqli_query($connection, $query);
 
                         while ($row = mysqli_fetch_assoc($result)){
-                            echo "<option value='{$row['name']}'>".$row['name']."</option>";
+                          echo "<option value='{$row['id']}'>".$row['name']."</option>";
                         }
                         ?>
-                    </select>
+                      </select>
                     </div>
                     <div class="form-group clearfix mb40">
                       <label for="remember" class="probootstrap-remember"><input type="checkbox" id="remember01">Remember Me</label>
@@ -120,10 +120,6 @@ include "includes/head.php";
                   </form>
                 </div>
               </div>
-
-              <?php else: ?>
-                <?php include "includes/searchForm.php" ?>
-              <?php endif; ?>
             </div>
           </div>
 
@@ -173,7 +169,19 @@ include "includes/head.php";
 
               <!-- ##### Latest Books Area End ##### -->    
             </div>
-          </div>   
+          </div>  
+          <!-- BEFORE LOGIN ENDs HERE -->
+          <?php else: ?>
+            <!-- AFTER LOGIN STARTS HERE -->
+            <div class="row">                   
+              <div class="col-md-12 text-center probootstrap-hero-text pb0 probootstrap-animate" data-animate-effect="fadeIn">
+                <?php include "includes/searchForm.php"?>
+                <?php include "includes/booksList.php"?>
+              </div>
+            </div>
+            <!-- AFTER LOGIN ENDS HERE -->
+          <?php endif; ?>
+
         </div>
       </section>
 
