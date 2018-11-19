@@ -123,6 +123,19 @@ include "includes/head.php";
             </div>
           </div>
 
+            </div>
+          </div>  
+          <!-- BEFORE LOGIN ENDs HERE -->
+          <?php else: ?>
+            <!-- AFTER LOGIN STARTS HERE -->
+            <div class="row">                   
+              <div class="col-md-12 text-center probootstrap-hero-text pb0 probootstrap-animate" data-animate-effect="fadeIn">
+                <?php include "includes/searchForm.php"?>
+              </div>
+            </div>
+            <!-- AFTER LOGIN ENDS HERE -->
+          <?php endif; ?>
+
           <!-- ##### Latest Books Area Start ##### -->
 
           <div class="row">
@@ -168,20 +181,6 @@ include "includes/head.php";
               </div>
 
               <!-- ##### Latest Books Area End ##### -->    
-            </div>
-          </div>  
-          <!-- BEFORE LOGIN ENDs HERE -->
-          <?php else: ?>
-            <!-- AFTER LOGIN STARTS HERE -->
-            <div class="row">                   
-              <div class="col-md-12 text-center probootstrap-hero-text pb0 probootstrap-animate" data-animate-effect="fadeIn">
-                <?php include "includes/searchForm.php"?>
-                <?php include "includes/booksList.php"?>
-              </div>
-            </div>
-            <!-- AFTER LOGIN ENDS HERE -->
-          <?php endif; ?>
-
         </div>
       </section>
 
