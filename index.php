@@ -139,41 +139,16 @@ include "includes/head.php";
             <div class="col-md-12 section-heading probootstrap-animate text-center">
               <h2 id="latest">Latest Books</h2>
               <div class="row">
-                <div class="col-lg-2 col-sm-4">
-                  <div class="thumbnail">
-                    <img class="img-thumbnail" src="img\img_01_book.jpg">
-                    <p class="text-sm-left">Title</p>
-                  </div>
-                </div>
-                <div class="col-lg-2 col-sm-4">
-                  <div class="thumbnail">
-                    <img class="img-thumbnail" src="img\img_02_book.jpg">
-                    <p class="text-sm-left">Title</p>
-                  </div>
-                </div>
-                <div class="col-lg-2 col-sm-4">
-                  <div class="thumbnail">
-                    <img class="img-thumbnail" src="img\img_03_book.jpg">
-                    <p class="text-sm-left">Title</p>
-                  </div>
-                </div>
-                <div class="col-lg-2 col-sm-4">
-                  <div class="thumbnail">
-                    <img class="img-thumbnail" src="img\img_04_book.jpg">
-                    <p class="text-sm-left">Title</p>
-                  </div>
-                </div>
-                <div class="col-lg-2 col-sm-4">
-                  <div class="thumbnail">
-                    <img class="img-thumbnail" src="img\img_05_book.jpg">
-                    <p class="text-sm-left">Title</p>
-                  </div>
-                </div>
-                <div class="col-lg-2 col-sm-4">
-                  <div class="thumbnail">
-                    <img class="img-thumbnail" src="img\img_06_book.jpg">
-                    <p class="text-sm-left">Title</p>
-                  </div>
+                <?php 
+                  $query = "SELECT b.img_name, b.title FROM books b join user_books ub on b.isbn = ub.book_id order by ub.date_registered DESC LIMIT 6";
+                  $result = mysqli_query($connection, $query);
+
+                  while ($row = mysqli_fetch_assoc($result)){
+                    echo "<div class='col-lg-2 col-sm-4'><div class='thumbnail'>";
+                    echo "<img class='img-thumbnail' src='img/".$row['img_name']."'>";
+                    echo "<p class='text-sm-left'>".$row['title']."</p></div></div>";
+                  }
+                ?>
                 </div>
               </div>
             </div>
