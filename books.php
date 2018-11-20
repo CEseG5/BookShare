@@ -53,7 +53,12 @@ include "includes/head.php";
                   <div class="divTableHead col-md-3">Author</div>
                   <div class="divTableHead col-md-3">Title</div>                
                   <div class="divTableHead col-md-2">Status</div>                
-                  <div class="divTableHead col-md-2">&nbsp</div>
+                  <div class="divTableHead col-md-2">
+                    <?php if(isset($_SESSION['msg'])){
+                      echo "<span>{$_SESSION['msg']}</span>";
+                      unset($_SESSION['msg']);
+                     } ?> 
+                  </div>
                 </div>
               </div>
               <div class="divTableBody">
@@ -66,16 +71,21 @@ include "includes/head.php";
                 $result = mysqli_query($connection, $query);
                 
                 while ($row = mysqli_fetch_assoc($result)){
-                 $id = $row['user_id'].$row['book_id'];
+                 $selected = $row['state'] === '1' ? 'selected' : '';
                  echo "<div class='divTableRow'>";
+                 echo "<form action='changeBookStatus.php' method='POST'>";
                  echo "<div class='divTableCell col-md-2'><img src='img/".$row['img_name']."'></div>";
                  echo "<div class='divTableCell col-md-3'>". $row['author'] ."</div>";   
                  echo "<div class='divTableCell col-md-3'>". $row['title'] ."</div>";   
-                 echo "<div class='divTableCell col-md-2'><select  name='state'>
-                 <option value='1'>Available</option>
-                 <option value='0'>Not available</option>
-                 </select></div>";   
-                 echo "<div class='divTableCell col-md-2 text-right'><a href='changeBookStatus.php?isbn=$id'>Save</a></div>";
+                 echo "<div class='divTableCell col-md-2'><select name='state'>
+                                                           <option value='0' ".$selected.">Not available</option>
+                                                           <option value='1' ".$selected.">Available</option>
+                                                          </select></div>";
+                 echo "<input type='hidden' name=prevState value='".$row['state']."'>"; 
+                 echo "<input type='hidden' name=userId value='".$row['user_id']."'>"; 
+                 echo "<input type='hidden' name=bookId value='".$row['book_id']."'>"; 
+                 echo "<div class='divTableCell col-md-2 text-right'><input class='btn-link' type='submit' name='changeState' value='Save'></div>";
+                 echo "</form>";
                  echo "</div>";
                }
                ?>
