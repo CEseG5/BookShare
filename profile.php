@@ -74,7 +74,7 @@ include "includes/head.php";
               <div class="divTableRow">
                 <div class="divTableCellLabel col-md-4">Address</div>
                 <div class="divTableCell col-md-6"><?= $address;  ?></div>
-                <div class="divTableCell col-md-2 text-right"><a href="">Edit</a></div>
+                <div class="divTableCell col-md-2 text-right"><a href="update_address.php">Edit</a></div>
               </div>
               <div class="divTableRow">
                 <div class="divTableCellLabel col-md-4">City</div>
