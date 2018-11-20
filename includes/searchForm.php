@@ -1,6 +1,17 @@
-<form class="searchBar col-md-12">
-	<div class="row">
-		<input type="text" class="inputSearch col-md-8 " placeholder="Search book by title, author, ISBN...">
-		<button type="submit" name="search" class="btn btn-primary col-md-4">Search</button>
+<form class="searchBar col-md-12" method="POST" action="searchBooks.php">
+	<div class="row form-group">
+		<select class="col-md-2" id="filter" name="city">
+			<option value="">City</option>
+			<?php
+			$query = "select * from cities";
+			$result = mysqli_query($connection, $query);
+
+			while ($row = mysqli_fetch_assoc($result)){
+				echo "<option value='{$row['id']}'>".$row['name']."</option>";
+			}
+			?>
+		</select>
+		<input type="text" class="inputSearch col-md-8" id="searchbox" placeholder="Search book by title, author, ISBN..." name="bsearch">
+		<button type="submit" name="search" class="btn btn-primary col-md-2">Search</button>
 	</div>
 </form>
