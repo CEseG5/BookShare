@@ -28,10 +28,10 @@ include "includes/head.php";
     </section>
     <section class="probootstrap-hero">
       <div class="container">         
-        <div class="row">                   
+        <div class="row">     
+        <?php  if (!isset($_SESSION['email'])) : ?>              
           <div class="col-md-8 col-md-offset-2 text-center probootstrap-hero-text pb0 probootstrap-animate" data-animate-effect="fadeIn">
            <!-- BEFORE LOGIN STARTS HERE -->
-           <?php  if (!isset($_SESSION['email'])) : ?>
             <p>
               <div class="col-md-offset-1 col-md-10"> 
                 <ul class="nav nav-fill nav-tabs" id="myTab" role="tablist" ata-animate-effect="fadeIn" >
