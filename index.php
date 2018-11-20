@@ -27,116 +27,113 @@ include "includes/head.php";
       </div>
     </section>
     <section class="probootstrap-hero">
-      <div class="container">       
-        <?php  if (!isset($_SESSION['email'])) : ?>
-          <!-- BEFORE LOGIN STARTS HERE -->
-          <div class="row">                   
-            <div class="col-md-8 col-md-offset-2 text-center probootstrap-hero-text pb0 probootstrap-animate" data-animate-effect="fadeIn">
-              <p>
-                <div class="col-md-offset-1 col-md-10"> 
-                  <ul class="nav nav-fill nav-tabs" id="myTab" role="tablist" ata-animate-effect="fadeIn" >
-                    <li class="nav-link-index active">
-                      <a class="" id="login-tab" data-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="false" >Log In To Your Account</a>
-                    </li>
-                    <li class="nav-link-index">
-                      <a class="" id="signup-tab" data-toggle="tab" href="#signup" role="tab" aria-controls="signup" aria-selected="false">Create An Account</a>
-                    </li>
-                  </ul>
-                </div>
-              </p>
+      <div class="container">         
+        <div class="row">                   
+          <div class="col-md-8 col-md-offset-2 text-center probootstrap-hero-text pb0 probootstrap-animate" data-animate-effect="fadeIn">
+           <!-- BEFORE LOGIN STARTS HERE -->
+           <?php  if (!isset($_SESSION['email'])) : ?>
+            <p>
+              <div class="col-md-offset-1 col-md-10"> 
+                <ul class="nav nav-fill nav-tabs" id="myTab" role="tablist" ata-animate-effect="fadeIn" >
+                  <li class="nav-link-index active">
+                    <a class="" id="login-tab" data-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="false" >Log In To Your Account</a>
+                  </li>
+                  <li class="nav-link-index">
+                    <a class="" id="signup-tab" data-toggle="tab" href="#signup" role="tab" aria-controls="signup" aria-selected="false">Create An Account</a>
+                  </li>
+                </ul>
+              </div>
+            </p>
 
-              <!-- Tab content -->
-
+            <!-- Tab content -->             
+            <div class="tab-content col-md-offset-2 col-md-8 row">
               <!-- Log in tab -->
-              <div class="tab-content col-md-offset-2 col-md-8 row">
-                <div class="tab-pane active" id="login" role="tabpanel" aria-labelledby="signup-tab">
-                  <form action="index.php" method="POST" class="probootstrap-form">
-                    <div class="form-group">
-                      <input type="text" class="form-control" placeholder="Email" name="email" value="<?= $email ?>">
-                    </div> 
-                    <div class="form-group">
-                      <input type="password" class="form-control" placeholder="Password" name="password" >
-                    </div> 
-                    <div class="form-group clearfix mb40">
-                      <label for="remember" class="probootstrap-remember"><input type="checkbox" id="remember"> Remember Me</label>
-                      <a href="#" class="probootstrap-forgot float-right block">Forgot Password?</a>
-                    </div>
-                    <?php include "includes/errors.php" ?>
-                    <div class="form-group text-left">
-                      <div class="row">
-                        <div class="col-md-offset-3 col-md-6">
-                          <input type="submit" name="login" class="btn btn-primary" value="Log In">
-                        </div>
+              <div class="tab-pane active" id="login" role="tabpanel" aria-labelledby="signup-tab">
+                <form action="index.php" method="POST" class="probootstrap-form">
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Email" name="email" value="<?= $email ?>">
+                  </div> 
+                  <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Password" name="password" >
+                  </div> 
+                  <div class="form-group clearfix mb40">
+                    <label for="remember" class="probootstrap-remember"><input type="checkbox" id="remember"> Remember Me</label>
+                    <a href="#" class="probootstrap-forgot float-right block">Forgot Password?</a>
+                  </div>
+                  <?php include "includes/errors.php" ?>
+                  <div class="form-group text-left">
+                    <div class="row">
+                      <div class="col-md-offset-3 col-md-6">
+                        <input type="submit" name="login" class="btn btn-primary" value="Log In">
                       </div>
                     </div>
-                  </form>
-                </div>
+                  </div>
+                </form>
+              </div>
+              <!-- Login tab ends here -->
 
-                <!-- Sign up tab -->
-                <div class="tab-pane" id="signup" role="tabpanel" aria-labelledby="signup-tab">
-                  <form method="POST" action="index.php" class="probootstrap-form">
-                    <div class="form-group">
-                      <input type="text" class="form-control" placeholder="First Name" name="fname" value="<?= $first_name ?>">
-                    </div> 
-                    <div class="form-group">
-                      <input type="text" class="form-control" placeholder="Last Name" name="lname"  value="<?= $last_name ?>">
-                    </div> 
-                    <div class="form-group">
-                      <input type="text" class="form-control" placeholder="Email" name="email" value="<?= $email ?>">
-                    </div> 
-                    <div class="form-group">
-                      <input type="password" class="form-control" placeholder="Password" name="password" >
-                    </div> 
-                    <div class="form-group">
-                      <input type="password" class="form-control" placeholder="Re-type Password" name="repeatpw" >
-                    </div> 
-                    <div class="form-group">
-                      <input type="text" class="form-control" placeholder="Address" name="address" value="<?= $address ?>">
-                    </div> 
-                    <div class="form-group">
-                      <select class="custom-select" name="city">
-                        <option value="">City</option>
-                        <?php
-                        $query = "select * from cities";
-                        $result = mysqli_query($connection, $query);
+              <!-- Sign up tab -->
+              <div class="tab-pane" id="signup" role="tabpanel" aria-labelledby="signup-tab">
+                <form method="POST" action="index.php" class="probootstrap-form">
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="First Name" name="fname" value="<?= $first_name ?>">
+                  </div> 
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Last Name" name="lname"  value="<?= $last_name ?>">
+                  </div> 
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Email" name="email" value="<?= $email ?>">
+                  </div> 
+                  <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Password" name="password" >
+                  </div> 
+                  <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Re-type Password" name="repeatpw" >
+                  </div> 
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Address" name="address" value="<?= $address ?>">
+                  </div> 
+                  <div class="form-group">
+                    <select class="custom-select" name="city">
+                      <option value="">City</option>
+                      <?php
+                      $query = "select * from cities";
+                      $result = mysqli_query($connection, $query);
 
-                        while ($row = mysqli_fetch_assoc($result)){
-                          echo "<option value='{$row['id']}'>".$row['name']."</option>";
-                        }
-                        ?>
-                      </select>
-                    </div>
-                    <div class="form-group clearfix mb40">
-                      <label for="remember" class="probootstrap-remember"><input type="checkbox" id="remember01">Remember Me</label>
-                    </div>
-                    <?php include "includes/errors.php" ?> 
-                    <div class="form-group text-left">
-                      <div class="row">
-                        <div class="col-md-offset-3 col-md-6">
-                          <input type="submit" class="btn btn-block btn-primary" name="register" value="Sign Up">
-                        </div>
+                      while ($row = mysqli_fetch_assoc($result)){
+                        echo "<option value='{$row['id']}'>".$row['name']."</option>";
+                      }
+                      ?>
+                    </select>
+                  </div>
+                  <div class="form-group clearfix mb40">
+                    <label for="remember" class="probootstrap-remember"><input type="checkbox" id="remember01">Remember Me</label>
+                  </div>
+                  <?php include "includes/errors.php" ?> 
+                  <div class="form-group text-left">
+                    <div class="row">
+                      <div class="col-md-offset-3 col-md-6">
+                        <input type="submit" class="btn btn-block btn-primary" name="register" value="Sign Up">
                       </div>
-                    </div>                   
-                  </form>
+                    </div>
+                  </div>                   
+                </form>
+              </div>
+              <!-- Signup tab ends here -->
+            </div>
+            <!-- Tab content ends here -->
+            <!-- BEFORE LOGIN ENDs HERE -->
+
+            <?php else: ?>
+              <div class="row">                   
+                <div class="col-md-12 text-center probootstrap-hero-text pb0 probootstrap-animate" data-animate-effect="fadeIn">
+                  <?php include "includes/searchForm.php"?>
                 </div>
               </div>
-            </div>
+            <?php endif; ?>
           </div>
-
-            </div>
-          </div>  
-          <!-- BEFORE LOGIN ENDs HERE -->
-          <?php else: ?>
-            <!-- AFTER LOGIN STARTS HERE -->
-            <div class="row">                   
-              <div class="col-md-12 text-center probootstrap-hero-text pb0 probootstrap-animate" data-animate-effect="fadeIn">
-                <?php include "includes/searchForm.php"?>
-              </div>
-            </div>
-            <!-- AFTER LOGIN ENDS HERE -->
-          <?php endif; ?>
-
-          <!-- ##### Latest Books Area Start ##### -->
+          
+          <!--  Latest Books Area Start  -->
 
           <div class="row">
             <div class="col-md-12 section-heading probootstrap-animate text-center">
@@ -179,25 +176,27 @@ include "includes/head.php";
                   </div>
                 </div>
               </div>
-
-              <!-- ##### Latest Books Area End ##### -->    
-        </div>
-      </section>
-
-      <section class="probootstrap-cta">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12">
-              <h2 class="probootstrap-animate" data-animate-effect="fadeInRight">We'd like to help and talk with you</h2>
-              <a href="#" role="button" class="btn btn-primary btn-lg btn-ghost probootstrap-animate" data-animate-effect="fadeInLeft">Contact Us</a>
             </div>
           </div>
+          <!--  Latest Books Area End  --> 
+        </div>  
+      </div>
+    </section>
+
+    <section class="probootstrap-cta">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="probootstrap-animate" data-animate-effect="fadeInRight">We'd like to help and talk with you</h2>
+            <a href="#" role="button" class="btn btn-primary btn-lg btn-ghost probootstrap-animate" data-animate-effect="fadeInLeft">Contact Us</a>
+          </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <?php 
-      include "includes/footer.php";
-      ?>
+    <?php 
+    include "includes/footer.php";
+    ?>
 
-    </body>
-    </html>
+  </body>
+  </html>
