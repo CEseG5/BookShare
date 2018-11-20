@@ -36,16 +36,16 @@
         $result = mysqli_query($connection, $query);
         $row = mysqli_fetch_assoc($result);
           
-        if ($result) { //If book exists on table books
-          if ($row['isbn'] === $isbn) {
+        //If book exists in database
+        if ($row['isbn'] === $isbn && count($errors) == 0) {
+          //User can save it on their library
+          $result = mysqli_query ($connection, $queryInsertBook);
+          if (!$result){
+            array_push($errors, "This book exists on your 'library'");
+          }else if(count($errors) == 0){
             $quantity = (int)$row['quantity']+1;
             $query = "UPDATE books set quantity = $quantity where isbn='$isbn' "; //Increment number of books
             $result = mysqli_query($connection, $query);
-            //User can save it on their library
-            $result = mysqli_query ($connection, $queryInsertBook);
-            if (!$result){
-              array_push($errors, "This book exists on your 'library'");
-            }
           }
         }else{
           //New book is registered
@@ -57,9 +57,9 @@
         }     
 
         if(count($errors) == 0){
-            move_uploaded_file($_FILES['image']['tmp_name'], "img/".$img_name);
-            header('location: books.php');
-          }       
+          move_uploaded_file($_FILES['image']['tmp_name'], "img/".$img_name);
+          header('location: books.php');
+        }       
         
       }
  ?>
