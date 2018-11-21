@@ -53,7 +53,7 @@ include "includes/head.php";
               LEFT JOIN user_books ub on b.isbn = ub.book_id 
               LEFT JOIN users u on u.id = ub.user_id
               LEFT JOIN cities c on u.city_id = c.id
-              WHERE concat(b.title, b.author, b.isbn) LIKE '%$search%' && ub.state == 1 " ;
+              WHERE concat(b.title, b.author, b.isbn) LIKE '%$search%' and ub.state = 1 " ;
 
               if($city_filter != ''){
                 $searchQuery .= "AND c.id LIKE {$city_filter}";
