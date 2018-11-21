@@ -2,10 +2,8 @@
 include 'includes/server.php';
 require 'includes/required.php';
 ?>
-<!DOCTYPE html>
-<html>
 <?php 
-$page_title = "Add Books";
+$page_title = "My Account";
 include "includes/head.php";
 ?>
 <body>
@@ -15,8 +13,7 @@ include "includes/head.php";
     <div class="container">
       <div class="row">
         <div class="col-md-8 text-left probootstrap-hero-text">
-          <h1 class="probootstrap-animate" data-animate-effect="fadeIn">Register book</h1>
-          <!--  -->
+          <h1 class="probootstrap-animate" data-animate-effect="fadeIn">My Profile <p>update Basic info</p></h1>
         </div>
       </div>
     </div>
@@ -91,5 +88,3 @@ include "includes/head.php";
 <?php 
 include "includes/footer.php";
 ?>
-</body>
-</html> 
