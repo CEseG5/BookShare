@@ -2,10 +2,8 @@
 include 'includes/server.php';
 require 'includes/required.php';
 ?>
-<!DOCTYPE html>
-<html>
 <?php 
-$page_title = "Add Books";
+$page_title = "My Account";
 include "includes/head.php";
 ?>
 <body>
@@ -15,7 +13,7 @@ include "includes/head.php";
     <div class="container">
       <div class="row">
         <div class="col-md-8 text-left probootstrap-hero-text">
-          <h1 class="probootstrap-animate" data-animate-effect="fadeIn">Register book</h1>
+          <h1 class="probootstrap-animate" data-animate-effect="fadeIn">My profile <p>Update email & address</p></h1>
           <!--  -->
         </div>
       </div>
@@ -60,7 +58,7 @@ include "includes/head.php";
             }
 
           if (count($errors) == 0) {
-            if($state == 1){      
+            if($state == 1 || $state == ''){      
               $sql   = "UPDATE users SET address='{$newAddress}', city_id = '{$newCity}' WHERE email ='{$loggedin}'";
               $res  = mysqli_query($connection,$sql) or die("Could not update ".mysqli_error($connection)); 
               $_SESSION['email'] = $loggedin;
@@ -103,5 +101,4 @@ include "includes/head.php";
 <?php 
 include "includes/footer.php";
 ?>
-</body>
-</html> 
+
