@@ -113,4 +113,59 @@ if (isset($_GET['logout'])) {
   header("location: index.php");
 } 
 
+// CHANGE PASSWORD
+
+  $old_password = "";
+  $new_password = "";
+  $confirm_password = "";
+
+
+  if(isset($_POST['change_pw'])){
+    if(empty($_POST['oldpw']) || empty($_POST['oldpw'])){
+      array_push($errors, "<div class='alert alert-danger' role='alert'> Old Password field cannot be empty! </div>");
+    }else{
+        $old_password = mysqli_real_escape_string($connection, $_POST['oldpw']);
+    }
+    if(!isset($_POST['newpw']) || $_POST['newpw'] == ""){
+      array_push($errors, "<div class='alert alert-danger' role='alert'> New Password field cannot be empty! </div>");
+    }elseif(!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/', $_POST['newpw'])){
+      array_push($errors, "<div class='alert alert-danger' role='alert'> New Password requires at least 6 characters, Uppercase & a number </div>");
+    }
+    else{
+        $new_password = mysqli_real_escape_string($connection, $_POST['newpw']);
+    }
+    if(!isset($_POST['cmpw']) || $_POST['cmpw'] == ""){
+      array_push($errors, "<div class='alert alert-danger' role='alert'> Confirm Password field cannot be empty! </div>");
+    }else{
+        $confirm_password = mysqli_real_escape_string($connection, $_POST['cmpw']);
+    }
+    if(count($errors) == 0){
+      
+      $password_row_query = "SELECT * from users where email = '{$_SESSION['email']}'";
+
+      $result_pw = mysqli_query($connection, $password_row_query);
+      
+      while($row_pw = mysqli_fetch_assoc($result_pw)){
+        $stored_pw = $row_pw['password'];
+        $email_placeholder = $row_pw['email'];
+      }
+      var_dump($stored_pw);
+      if(md5($old_password) != $stored_pw){
+        array_push($errors, "<div class='alert alert-danger' role='alert'> Your input doesn't match with your old password! </div>");
+      }
+      if($new_password != $confirm_password){
+        array_push($errors, "<div class='alert alert-danger' role='alert'> New password and Confirm password fields do not match! </div>");
+      }else{
+        $new_stored_pw = md5($new_password);
+      }
+    }
+    if(count($errors) == 0){
+      $update_password = "UPDATE users set password = '{$new_stored_pw}' where email = '{$_SESSION['email']}'";
+      mysqli_query($connection, $update_password);
+      //session_destroy();
+      unset($_SESSION['email']);
+      session_destroy();
+    }
+  }
+
 ?>
