@@ -140,13 +140,15 @@ include "includes/head.php";
               <h2 id="latest">Latest Books</h2>
               <div class="row">
                 <?php 
-                  $query = "SELECT b.img_name, b.title FROM books b join user_books ub on b.isbn = ub.book_id order by ub.date_registered DESC LIMIT 6";
+                  $query = "SELECT b.img_name, b.author FROM books b join user_books ub on b.isbn = ub.book_id order by ub.date_registered DESC LIMIT 6";
                   $result = mysqli_query($connection, $query);
+                  $hidden = !isset($_SESSION['email']) ? "hidden" : "" ;
 
                   while ($row = mysqli_fetch_assoc($result)){
-                    echo "<div class='col-lg-2 col-sm-4'><div class='thumbnail'>";
-                    echo "<img class='img-thumbnail' src='img/".$row['img_name']."'>";
-                    echo "<p class='text-sm-left'>".$row['title']."</p></div></div>";
+                    echo "<div class='col-md-2 col-sm-4'><div class='thumbnail'>";
+                    echo "<img class='img-thumbnail  m-5 p-5' src='img/".$row['img_name']."'>";
+                    echo "<p class='mh-100 pt-3' style= 'height: 30px'>".$row['author']."</p>";
+                    echo "<div class='panel-footer $hidden'><a href=''>Rent</a></div></div></div>";
                   }
                 ?>
                 </div>
