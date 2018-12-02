@@ -69,6 +69,7 @@ if (isset($_POST['register'])) {
   			   VALUES('$first_name', '$last_name', '$email','$password','$address','$city')";
   	mysqli_query($connection, $query);
   	$_SESSION['email'] = $email;
+    $_SESSION['id'] = mysqli_insert_id($connection);
     header('location: index.php');
   }
 }
@@ -97,8 +98,10 @@ if (isset($_POST['login'])) {
     $password = md5($password);
     $query = "SELECT * FROM users WHERE email='$email' AND password='$password'";
     $results = mysqli_query($connection, $query);
+    $row = mysqli_fetch_assoc($results);
     if (mysqli_num_rows($results) == 1) {
       $_SESSION['email'] = $email;
+      $_SESSION['id'] = $row['id'];
       header('location: index.php');
     }else {
       array_push($errors, "Wrong email/password combination");
