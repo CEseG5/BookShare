@@ -87,7 +87,7 @@ include "includes/head.php";
               <div class="divTableRow">
                 <div class="divTableCellLabel col-md-4">Email</div>
                 <div class="divTableCell col-md-5"><?= $email;  ?></div>
-                <div class="divTableCell col-md-3 text-right"><a href="">Change Password</a></div>
+                <div class="divTableCell col-md-3 text-right"><a href="changePassword_form.php">Change Password</a></div>
               </div>
             </div>
           </div>
