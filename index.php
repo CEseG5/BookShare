@@ -149,12 +149,13 @@ include "includes/head.php";
                     echo "<div class='col-md-2 col-sm-4'><div class='thumbnail'>";
                     echo "<img class='img-thumbnail  m-5 p-5' src='img/".$row['img_name']."'>";
                     echo "<p class='mh-100 pt-3' style= 'height: 30px; max-height: 100px'>".$row['author']."</p>";
-                    echo "<div class='panel-footer $hidden'><a href=''>Rent</a></div></div></div>";
+                    echo "<div class='panel-footer $hidden' ><a role='button' data-toggle='modal' data-target='#rentModal'>Rent</a></div></div></div>"; 
                   }
                 ?>
                 </div>
               </div>
             </div>
+            <?php include 'includes/requestForm.php' ?>
           </div>
           <!--  Latest Books Area End  --> 
         </div>  
@@ -172,6 +173,7 @@ include "includes/head.php";
       </div>
     </section>
 
+    
     <?php 
     include "includes/footer.php";
     ?>
