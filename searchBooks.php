@@ -48,19 +48,22 @@ include "includes/head.php";
 
               $search = mysqli_real_escape_string($connection, $_POST['bsearch']);
               $city_filter = mysqli_real_escape_string($connection, $_POST['city']);
+              $userId  =  $_SESSION['id'];
+              $idlook  =  mysqli_query($connection,"select  id  from  users");
 
+              
               $searchQuery = "SELECT b.img_name, b.title, b.author, ub.state, u.last_name, u.first_name,c.name, ub.book_id, ub.user_id, c.id, c.name as city_name FROM books b 
               LEFT JOIN user_books ub on b.isbn = ub.book_id 
               LEFT JOIN users u on u.id = ub.user_id
               LEFT JOIN cities c on u.city_id = c.id
-              WHERE concat(b.title, b.author, b.isbn) LIKE '%$search%' and ub.state = 1 " ;
+              WHERE  concat(b.title, b.author, b.isbn) LIKE '%$search%' and ub.state = 1  AND  ub.user_id  !=  '{$_SESSION['id']}' " ;
 
               if($city_filter != ''){
                 $searchQuery .= "AND c.id LIKE {$city_filter}";
               }
 
               $result = mysqli_query($connection, $searchQuery);
-
+              
               if(mysqli_num_rows($result) > 0 ){
                 while($row = mysqli_fetch_assoc($result)){
                   $state = ($row['state'] == '1' ? 'Available' : 'Not Available');
