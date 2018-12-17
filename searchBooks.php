@@ -9,6 +9,9 @@ require 'includes/required.php';
 $page_title = "Search Books";
 include "includes/head.php";
 ?>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script type="text/javascript" src="js/book_requests.js"></script>
 <body>
   <?php include "includes/navbar.php"; ?>
   <section class="probootstrap-hero probootstrap-xs-hero probootstrap-hero-colored">
@@ -42,6 +45,7 @@ include "includes/head.php";
               <div class="divTableHead col-md-1">&nbsp</div>
             </div>
           </div>
+          <div class="container message alert col-md-offset-5" id="message"></div>
           <div class="divTableBody">
             <?php 
             if (isset($_POST['search'])) {
@@ -52,7 +56,7 @@ include "includes/head.php";
               $idlook  =  mysqli_query($connection,"select  id  from  users");
 
               
-              $searchQuery = "SELECT b.img_name, b.title, b.author, ub.state, u.last_name, u.first_name,c.name, ub.book_id, ub.user_id, c.id, c.name as city_name FROM books b 
+              $searchQuery = "SELECT u.id, u.address,b.img_name, b.title, b.author, ub.state, u.last_name, u.first_name, ub.book_id, ub.user_id, c.id, c.name as city_name FROM books b 
               LEFT JOIN user_books ub on b.isbn = ub.book_id 
               LEFT JOIN users u on u.id = ub.user_id
               LEFT JOIN cities c on u.city_id = c.id
@@ -63,11 +67,18 @@ include "includes/head.php";
               }
 
               $result = mysqli_query($connection, $searchQuery);
+
+              $id_borrower = $_SESSION['id'];
               
               if(mysqli_num_rows($result) > 0 ){
                 while($row = mysqli_fetch_assoc($result)){
                   $state = ($row['state'] == '1' ? 'Available' : 'Not Available');
                   $id = $row['user_id'].$row['book_id'];
+                  
+                  $user_id = $row['id'];
+                  $city_address = $row['city_name'].' '.$row['address'];
+                  $book_id = $row['book_id'];
+
                   echo "<div class='divTableRow'>";
                   echo "<div class='divTableCell col-md-2'><img src='img/".$row['img_name']."'></div>";  
                   echo "<div class='divTableCell col-md-2'>". $row['author'] ."</div>";   
@@ -75,7 +86,7 @@ include "includes/head.php";
                   echo "<div class='divTableCell col-md-2'>". $state."</div>";  
                   echo "<div class='divTableCell col-md-2'>". $row['first_name'].' '.$row['last_name'] ."</div>";
                   echo "<div class='divTableCell col-md-1'>". $row['city_name'] ."</div>";
-                  echo "<div class='divTableCell col-md-1 text-right'><a href='changeBookStatus.php?isbn=$id'>Rent</a></div>";
+                  echo "<div class='divTableCell col-md-1 text-right'><a role='button' data-toggle='modal' data-target='#rentModal' data-session='$id_borrower' book-id='$book_id' class='rent_book' data-id='$user_id' data-city='$city_address'>Rent</a></div>";
                   echo "</div>";
                 }
               } else {
@@ -84,6 +95,7 @@ include "includes/head.php";
             }
             ?>
           </div>
+          <?php include 'includes/requestForm.php' ?>
         </div>
       </div>
     </div>
