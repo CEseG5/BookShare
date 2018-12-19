@@ -101,7 +101,6 @@ include "includes/head.php";
                       <?php
                       $query = "select * from cities";
                       $result = mysqli_query($connection, $query);
-
                       while ($row = mysqli_fetch_assoc($result)){
                         echo "<option value='{$row['id']}'>".$row['name']."</option>";
                       }
@@ -146,27 +145,29 @@ include "includes/head.php";
                   $query = "SELECT u.id,b.img_name, b.author, ub.user_id, ub.book_id, c.name, u.address FROM books b join user_books ub on b.isbn = ub.book_id join users u on ub.user_id = u.id join cities c on c.id = u.city_id $userLoggedIn order by ub.date_registered DESC LIMIT 6 ";
                   $result = mysqli_query($connection, $query);
                   $hidden = !isset($_SESSION['email']) ? "hidden" : "" ;
-
-                  $id_borrower = $_SESSION['id'];
-
+                  
+                  $id_borrower = "";
+                  if(isset($_SESSION['id'])){
+                    $id_borrower = $_SESSION['id'];
+                  }
                   while ($row = mysqli_fetch_assoc($result)){
                     
                     $user_id = $row['id'];
                     $city_address = $row['name'].' '.$row['address'];
                     $book_id = $row['book_id'];
-
                     echo "<div class='col-md-2 col-sm-4'><div class='thumbnail'>";
                     echo "<img class='img-thumbnail  m-5 p-5' src='img/".$row['img_name']."'>";
                     echo "<p class='mh-100 pt-3' style= 'height: 30px; max-height: 100px'>".$row['author']."</p>";
                     echo "<div class='panel-footer $hidden'><a role='button' data-toggle='modal' data-target='#rentModal' data-session='$id_borrower' book-id='$book_id' data-city='$city_address' class='rent_book' data-id='$user_id' >Rent</a></div></div></div>"; 
                   }
-
                 ?>
                 
                 </div>
               </div>
             </div>
           </div>
+          
+
           <div class="container message alert col-md-offset-5" style="color:green" id="message"></div>
           <!--  Latest Books Area End  -->
       <?php include 'includes/requestForm.php' ?>
