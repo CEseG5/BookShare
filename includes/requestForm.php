@@ -12,7 +12,7 @@
           <div class="form-group">
           	<div class="container message alert col-md-offset-5" style="color:green" id="message"></div>
             <div class="font-weight-light text-center">Return Date:</div>
-            <input class="form-control lg text-center" type="text" placeholder="Enter return date(mm-dd-yyyy)" name="returnDate" id="return_date">
+            <input class="form-control lg text-center" type="text" placeholder="Enter return date(YYYY-MM-DD)" name="returnDate" id="return_date">
           </div>
           <div class="form-group">
             <div class="font-weight-light text-center">Owner Address:</div>
