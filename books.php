@@ -183,26 +183,37 @@ include "includes/head.php";
                 <div class="divTableHead col-md-3">Book</div>
                 <div class="divTableHead col-md-3">Borrowed by</div>
                 <div class="divTableHead col-md-3">Due Date</div>
-                <div class="divTableHead col-md-3">Status</div>    
+                <div class="divTableHead col-md-2">Status</div>
+                <div class="divTableHead col-md-1">&nbsp</div>    
               </div>
             </div>
             <div class="divTableBody">
                <?php 
-               
-                $query = "SELECT * FROM requests WHERE owner_id = '{$_SESSION['id']}' and is_answered = 'approved' ";
+
+                $query = "SELECT * FROM requests r left join borrowed b on r.id = b.request_id WHERE r.owner_id = '{$_SESSION['id']}' and r.is_answered = 'approved' ";
                 $result = mysqli_query($connection, $query);
 
                 while ($row = mysqli_fetch_assoc($result)){
 
-                  echo "<div class='divTableRow'>";
+                  $selection = "<select name='state'>
+                                 <option value='pending'>Pending</option>
+                                 <option value='returned'>Returned</option>
+                                 <option value='not returned'>Not Returned</option>
+                                </select>";     
+
+                  $hide = ( is_null($row['is_returned']) && ( strtotime($row['return_date']) > strtotime(date("Y-m-d"))) )? "" : $selection;
+
+                  echo "<div class='divTableRow'>";                  
+                  echo "<form action='includes/updateRequests.php' method='POST'>";
                   echo "<div class='divTableHead col-md-3'>".$row['book_id']."</div>";
                   echo "<div class='divTableHead col-md-3'>".$row['borrower_id']."</div>";
                   echo "<div class='divTableHead col-md-3'>".$row['return_date']."</div>";
-                  echo "<div class='divTableCell col-md-3'><select name='state'>
-                                                           <option value='0'>Pending</option>
-                                                           <option value='0'>Returned</option>
-                                                           <option value='1'>Not Returned</option>
-                                                          </select></div>";
+                  echo "<div class='divTableCell col-md-2'>".$hide."</div>";
+                  //echo "<input type='hidden' name='prevState' value='".$row['is_answered']."'>"; 
+                  echo "<input type='hidden' name='bookId' value='".$row['book_id']."'>"; 
+                  echo "<input type='hidden' name='borrowerId' value='".$row['borrower_id']."'>"; 
+                  echo "<div class='divTableCell col-md-1 text-right'><input class='btn-link' type='submit' name='updateApprovedRequest' value='Save'></div>";
+                  echo "</form>";
                   echo "</div>";
                 }
                  ?>   
