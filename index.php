@@ -141,7 +141,7 @@ include "includes/head.php";
               <h2 id="latest">Latest Books</h2>
               <div class="row">
                 <?php 
-                  $userLoggedIn = !isset($_SESSION['id']) ? "" :  "where  ub.user_id != '{$_SESSION['id']}' ";
+                  $userLoggedIn = !isset($_SESSION['id']) ? "" :  "where  ub.user_id != '{$_SESSION['id']}' and ub.state = 1 ";
                   $query = "SELECT u.id,b.img_name, b.author, ub.user_id, ub.book_id, c.name, u.address FROM books b join user_books ub on b.isbn = ub.book_id join users u on ub.user_id = u.id join cities c on c.id = u.city_id $userLoggedIn order by ub.date_registered DESC LIMIT 6 ";
                   $result = mysqli_query($connection, $query);
                   $hidden = !isset($_SESSION['email']) ? "hidden" : "" ;
