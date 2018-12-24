@@ -263,11 +263,11 @@ include "includes/head.php";
             </div>
             <div class="divTableBody">
                <?php 
-                $query = "SELECT r.borrower_id, r.is_answered, r.return_date, b.title, b.author, b.img_name, concat(u.first_name, ' ', u.last_name) as full_name, ub.*, b.title FROM requests r left join user_books ub on r.owner_id = ub.user_id join books b on r.book_id = b.isbn join users u on u.id = ub.user_id WHERE borrower_id = '{$_SESSION['id']}' and is_answered = 'Pending' and ub.state = 1 order by r.return_date";
+                // $query = "SELECT r.borrower_id, r.is_answered, r.return_date, b.title, b.author, b.img_name, concat(u.first_name, ' ', u.last_name) as full_name, ub.*, b.title FROM requests r join user_books ub on r.owner_id = ub.user_id join books b on r.book_id = b.isbn join users u on u.id = ub.user_id WHERE r.borrower_id = '{$_SESSION['id']}' and r.is_answered = 'pending'";
+                $query = "SELECT r.*, concat(u.first_name, ' ', u.last_name) as full_name,b.author, b.img_name, b.title FROM requests r join users u on r.owner_id = u.id join books b on r.book_id = b.isbn WHERE is_answered = 'pending' and borrower_id = '{$_SESSION['id']}';";
                 $result = mysqli_query($connection, $query);
-
+                
                 while ($row = mysqli_fetch_assoc($result)){
-
                   echo "<div class='divTableRow'>";
                   echo "<form action='includes/updateRequests.php' method='POST'>";
                   echo "<div class='divTableHead col-md-3'><i>Title: </i>\" <b>".$row['title']."</b>\"<br><i> Written by:</i> <b>".$row['author']."</b><br><img class='img-thumbnail  m-5 p-5' src='img/".$row['img_name']."'></div>";
@@ -280,6 +280,7 @@ include "includes/head.php";
                   echo "</form>";
                   echo "</div>";
                 }
+                
                  ?>   
             </div>
           </div>
