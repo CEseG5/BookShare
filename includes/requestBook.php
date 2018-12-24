@@ -1,7 +1,6 @@
  <?php 
-      
       session_start();
-      $session_id = $_SESSION['id'];
+      $session_id = $_SESSION['id'];   
 
       $connection = mysqli_connect('localhost', 'root', '', 'bookshare');
 
@@ -17,44 +16,31 @@
       $row = mysqli_num_rows($result);
 
 
+      $error = '';
+      $success = '';
 
       if(empty($return_date)){
-         ?>
-         <script type="text/javascript">
-            alert('Data field is empty!');
-         </script>
-         <?php
+         $error = '<span class="alert alert-danger"> Empty Date</span>';
+         echo $error;
          exit();
       }
      elseif(!strtotime($return_date)){
-         ?>
-         <script type="text/javascript">
-            alert('Date is not valid!');
-         </script>
-         <?php
+         $error = '<span class="alert alert-danger"> Date is not valid </span>';
+         echo $error;
          exit();
      } elseif(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$return_date)){
-         ?>
-         <script type="text/javascript">
-            alert('Incorrect Date input!');
-         </script>
-         <?php
+         $error = '<span class="alert alert-danger"> Date inputed is not in required format! </span>';
+         echo $error;
          exit();
      }
       elseif($row >= 1){
-         ?>
-         <script type="text/javascript">
-            alert('Request already sent!');
-         </script>
-         <?php
+         $error = '<span class="alert alert-danger"> The Request for this book has already been sent! </span>';
+         echo $error;
          exit();
       } 
       elseif(strtotime($return_date) < strtotime('now') ) {
-         ?>
-         <script type="text/javascript">
-            alert('Date is in invalid format or is in the past!');
-         </script>
-         <?php
+         $error = '<span class="alert alert-danger"> Date entered is in the past! </span>';
+         echo $error;
          exit();
       } 
 
@@ -64,13 +50,11 @@
                   $sql = "INSERT INTO requests (borrower_id, owner_id, book_id, return_date) VALUES ('$borrower_id','$owner_id','$book_id','$return_date');";
 
                   if(mysqli_query($connection, $sql)){
-                     ?>
-                     <script type="text/javascript">
-                        alert('Request successfully sent!');
-                     </script>
-                     <?php
-                     exit();
+                     $success = "<span class='alert alert-success'>Successful Rent Request! Redirecting to your requests list!</span>";
+                     echo $success;
+                     
              }
           }
 
  ?>
+
