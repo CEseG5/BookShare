@@ -10,13 +10,14 @@
       <div class="modal-body">
         <form method="POST" id="frm">
           <div class="form-group">
-          	<div class="container message alert col-md-offset-5" style="color:green" id="message"></div>
+            <div id="message" class="text-center" style="margin-bottom:15px"></div>
+          <div id="removable-fields">  
             <div class="font-weight-light text-center">Return Date:</div>
             <input class="form-control lg text-center" type="text" placeholder="Enter return date(YYYY-MM-DD)" name="returnDate" id="return_date">
-          </div>
           <div class="form-group">
             <div class="font-weight-light text-center">Owner Address:</div>
             <input type="text" class="alert alert-info form-control text-center font-weight-bold" readonly id="address_id" name="city_address_r">
+          </div>
           </div>
           <div class="form-group">
             <input type="text" id="owner_id" name="owner_id_r" hidden disabled>
@@ -28,7 +29,7 @@
             <input type="text" disabled id="book_id" name="book_id_r" hidden>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-light" data-dismiss="modal" id="btn_close">Close</button>
             <button type="submit" name="requestBook" class="btn btn-ghost" id="btn_save" name="submit">Save changes</button>
           </div>
         </form>
