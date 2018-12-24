@@ -141,7 +141,7 @@ include "includes/head.php";
               <h2 id="latest">Latest Books</h2>
               <div class="row">
                 <?php 
-                  $userLoggedIn = !isset($_SESSION['id']) ? "" :  "where  ub.user_id != '{$_SESSION['id']}' and ub.state = 1 ";
+                  $userLoggedIn = !isset($_SESSION['id']) ? "" :  "where  ub.user_id != '{$_SESSION['id']}' and ub.state = 1";
                   $query = "SELECT u.id,b.img_name, b.author, ub.user_id, ub.book_id, c.name, u.address FROM books b join user_books ub on b.isbn = ub.book_id join users u on ub.user_id = u.id join cities c on c.id = u.city_id $userLoggedIn order by ub.date_registered DESC LIMIT 6 ";
                   $result = mysqli_query($connection, $query);
                   $hidden = !isset($_SESSION['email']) ? "hidden" : "" ;
@@ -158,7 +158,7 @@ include "includes/head.php";
                     echo "<div class='col-md-2 col-sm-4'><div class='thumbnail'>";
                     echo "<img class='img-thumbnail  m-5 p-5' src='img/".$row['img_name']."'>";
                     echo "<p class='mh-100 pt-3' style= 'height: 30px; max-height: 100px'>".$row['author']."</p>";
-                    echo "<div class='panel-footer $hidden'><a role='button' data-toggle='modal' data-target='#rentModal' data-session='$id_borrower' book-id='$book_id' data-city='$city_address' class='rent_book' data-id='$user_id' >Rent</a></div></div></div>"; 
+                    echo "<div class='panel-footer $hidden'><a role='button' data-toggle='modal' data-target='#rentModal' data-session='$id_borrower' book-id='$book_id' data-city='$city_address' class='rent_book' data-id='$user_id'>Rent</a></div></div></div>"; 
                   }
                 ?>
                 
@@ -168,7 +168,7 @@ include "includes/head.php";
           </div>
           
 
-          <div class="container message alert col-md-offset-5" style="color:green" id="message"></div>
+          <!-- <div class="container message alert col-md-offset-5" style="color:green" id="message"></div> -->
           <!--  Latest Books Area End  -->
       <?php include 'includes/requestForm.php' ?>
         </div>  
