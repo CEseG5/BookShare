@@ -61,7 +61,7 @@ include "includes/head.php";
 
         <!-- Nav tabs -->            
         <div id='tabs'> 
-          <ul class="nav nav-fill nav-tabs" id="myTab" role="tablist" ata-animate-effect="fadeIn" >
+          <ul class="nav nav-fill nav-tabs nav-justified" id="myTab" role="tablist" ata-animate-effect="fadeIn" >
             <li class="active nav-item" id="books">
               <a class="nav-link" id="mybooks-tab" data-toggle="tab" href="#mybooks" role="tab" aria-controls="mybooks" aria-selected="false">My Books</a>
             </li>
