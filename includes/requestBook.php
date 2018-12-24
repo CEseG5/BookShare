@@ -9,7 +9,7 @@
       $owner_id = $_POST['owner_of_book'];
       $book_id = $_POST['book_id_r'];
 
-      $query_select = "SELECT book_id, borrower_id FROM requests where borrower_id = '$session_id' AND book_id = '$book_id';";
+      $query_select = "SELECT book_id, borrower_id FROM requests where borrower_id = '$session_id' AND book_id = '$book_id' and owner_id = '$owner_id';";
 
       $result = mysqli_query($connection, $query_select);
 
@@ -46,7 +46,7 @@
 
       else {
           $return_date = date("Y-m-d", strtotime($return_date));
-
+                  
                   $sql = "INSERT INTO requests (borrower_id, owner_id, book_id, return_date) VALUES ('$borrower_id','$owner_id','$book_id','$return_date');";
 
                   if(mysqli_query($connection, $sql)){
