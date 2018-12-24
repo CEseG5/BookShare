@@ -45,7 +45,6 @@ include "includes/head.php";
               <div class="divTableHead col-md-1">&nbsp</div>
             </div>
           </div>
-          <div class="container message alert col-md-offset-5" id="message"></div>
           <div class="divTableBody">
             <?php 
             if (isset($_POST['search'])) {
