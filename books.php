@@ -9,6 +9,38 @@ require 'includes/required.php';
 $page_title = "Books";
 include "includes/head.php";
 ?>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/book_requests.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+<script>
+  
+  $(document).ready(()=>{
+    
+    function getUrlVars()
+    {
+      let vars = [], hash;
+      let hashes = window.location.href.slice(window.location.href.indexOf('#')).split('&');
+      for(var i = 0; i < hashes.length; i++)
+      {
+          hash = hashes[i].split('=');
+          vars.push(hash[0]);
+      }
+      return vars;
+    }
+
+    if(getUrlVars()[0] === '#sent_requests') {
+      $("#sent_requests").addClass('active');
+      $("#mybooks").removeClass('active');
+      $("#books").removeClass('active');
+      $("#sent_requests-tab").addClass('active');
+    }
+  });
+
+</script>
 
 <body>
   <?php include "includes/navbar.php"; ?>
@@ -28,16 +60,19 @@ include "includes/head.php";
       <div class="col-md-12 text-left probootstrap-hero-text">
 
         <!-- Nav tabs -->            
-        <div> 
+        <div id='tabs'> 
           <ul class="nav nav-fill nav-tabs" id="myTab" role="tablist" ata-animate-effect="fadeIn" >
-            <li class="active nav-item">
+            <li class="active nav-item" id="books">
               <a class="nav-link" id="mybooks-tab" data-toggle="tab" href="#mybooks" role="tab" aria-controls="mybooks" aria-selected="false">My Books</a>
             </li>
             <li class="nav-item ">
               <a class="nav-link" id="rentals-tab" data-toggle="tab" href="#rentals" role="tab" aria-controls="rentals" aria-selected="false">Current Rentals</a>
             </li>            
             <li class="nav-item">
-              <a class="nav-link" id="requests-tab" data-toggle="tab" href="#requests" role="tab" aria-controls="requests" aria-selected="false" >Requests</a>
+              <a class="nav-link" id="requests-tab" data-toggle="tab" href="#requests" role="tab" aria-controls="requests" aria-selected="false" >Recived Requests</a>
+            </li>
+            <li class="nav-item" id="sent_requests-tab">
+              <a class="nav-link" data-toggle="tab" href="#sent_requests" role="tab" aria-controls="sent_requests" aria-selected="false" >Sent Requests</a>
             </li>
           </ul>
         </div>
@@ -183,44 +218,74 @@ include "includes/head.php";
                 <div class="divTableHead col-md-3">Book</div>
                 <div class="divTableHead col-md-3">Borrowed by</div>
                 <div class="divTableHead col-md-3">Due Date</div>
-                <div class="divTableHead col-md-2">Status</div>
-                <div class="divTableHead col-md-1">&nbsp</div>    
+                <div class="divTableHead col-md-3">Status</div>    
               </div>
             </div>
             <div class="divTableBody">
                <?php 
-
-                $query = "SELECT * FROM requests r left join borrowed b on r.id = b.request_id WHERE r.owner_id = '{$_SESSION['id']}' and r.is_answered = 'approved' ";
+               
+                $query = "SELECT * FROM requests WHERE owner_id = '{$_SESSION['id']}' and is_answered = 'approved' ";
                 $result = mysqli_query($connection, $query);
 
                 while ($row = mysqli_fetch_assoc($result)){
 
-                  $selection = "<select name='state'>
-                                 <option value='pending'>Pending</option>
-                                 <option value='returned'>Returned</option>
-                                 <option value='not returned'>Not Returned</option>
-                                </select>";     
-
-                  $hide = ( is_null($row['is_returned']) && ( strtotime($row['return_date']) > strtotime(date("Y-m-d"))) )? "" : $selection;
-
-                  echo "<div class='divTableRow'>";                  
-                  echo "<form action='includes/updateRequests.php' method='POST'>";
+                  echo "<div class='divTableRow'>";
                   echo "<div class='divTableHead col-md-3'>".$row['book_id']."</div>";
                   echo "<div class='divTableHead col-md-3'>".$row['borrower_id']."</div>";
                   echo "<div class='divTableHead col-md-3'>".$row['return_date']."</div>";
-                  echo "<div class='divTableCell col-md-2'>".$hide."</div>";
-                  //echo "<input type='hidden' name='prevState' value='".$row['is_answered']."'>"; 
-                  echo "<input type='hidden' name='bookId' value='".$row['book_id']."'>"; 
-                  echo "<input type='hidden' name='borrowerId' value='".$row['borrower_id']."'>"; 
-                  echo "<div class='divTableCell col-md-1 text-right'><input class='btn-link' type='submit' name='updateApprovedRequest' value='Save'></div>";
-                  echo "</form>";
+                  echo "<div class='divTableCell col-md-3'><select name='state'>
+                                                           <option value='0'>Pending</option>
+                                                           <option value='0'>Returned</option>
+                                                           <option value='1'>Not Returned</option>
+                                                          </select></div>";
                   echo "</div>";
                 }
                  ?>   
             </div>
           </div>
 
+          
+
         </div>
+        <!-- SENT REQUEST TAB -->
+        <div class="tab-pane" id="sent_requests" role="tabpanel" aria-labelledby="requests-tab">
+
+          <div class="divTable col-md-12">
+            <h1>Sent Requests</h1>
+            <div class="divTableHeading">
+              <div class="divTableRow">
+                <div class="divTableHead col-md-3">Book</div>
+                <div class="divTableHead col-md-3">Book Owner</div>
+                <div class="divTableHead col-md-3">Return Date</div>
+                <div class="divTableHead col-md-2">State</div>
+                <div class="divTableHead col-md-1">&nbsp</div>
+              </div>
+            </div>
+            <div class="divTableBody">
+               <?php 
+                $query = "SELECT r.borrower_id, r.is_answered, r.return_date, b.title, b.author, b.img_name, concat(u.first_name, ' ', u.last_name) as full_name, ub.*, b.title FROM requests r left join user_books ub on r.owner_id = ub.user_id join books b on r.book_id = b.isbn join users u on u.id = ub.user_id WHERE borrower_id = '{$_SESSION['id']}' and is_answered = 'Pending' and ub.state = 1 order by r.return_date";
+                $result = mysqli_query($connection, $query);
+
+                while ($row = mysqli_fetch_assoc($result)){
+
+                  echo "<div class='divTableRow'>";
+                  echo "<form action='includes/updateRequests.php' method='POST'>";
+                  echo "<div class='divTableHead col-md-3'><i>Title: </i>\" <b>".$row['title']."</b>\"<br><i> Written by:</i> <b>".$row['author']."</b><br><img class='img-thumbnail  m-5 p-5' src='img/".$row['img_name']."'></div>";
+                  echo "<div class='divTableHead col-md-3'>".$row['full_name']."</div>";
+                  echo "<div class='divTableHead col-md-3'>".$row['return_date']."</div>";
+                  echo "<div class='divTableHead col-md-3'>".$row['is_answered']."</div>";
+                  echo "<input type='hidden' name='prevState' value='".$row['is_answered']."'>"; 
+                  echo "<input type='hidden' name='bookId' value='".$row['book_id']."'>"; 
+                  echo "<input type='hidden' name='borrowerId' value='".$row['borrower_id']."'>"; 
+                  echo "</form>";
+                  echo "</div>";
+                }
+                 ?>   
+            </div>
+          </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
