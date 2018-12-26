@@ -284,7 +284,7 @@ include "includes/head.php";
                   echo "</div>";
                 }
                 
-              ?>   
+                 ?>   
             </div>
           </div>
           </div>
