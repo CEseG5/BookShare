@@ -85,7 +85,7 @@ include "includes/head.php";
               <div class="divTableHeading">
                 <div class="divTableRow">
                   <div class="divTableHead col-md-2"></div>
-                  <div class="divTableHead col-md-3">Author</div>
+                  <div class="divTableHead col-md-2">Author</div>
                   <div class="divTableHead col-md-3">Title</div>                
                   <div class="divTableHead col-md-2">Status</div>                
                   <div class="divTableHead col-md-2">
@@ -106,20 +106,29 @@ include "includes/head.php";
                 $result = mysqli_query($connection, $query);
                 
                 while ($row = mysqli_fetch_assoc($result)){
-                 $selected = $row['state'] === '1' ? 'selected' : '';
+                 $state = $row['state'] === '1' ? 'Available' : 'Not Available';
+
                  echo "<div class='divTableRow'>";
                  echo "<form action='changeBookStatus.php' method='POST'>";
                  echo "<div class='divTableCell col-md-2'><img src='img/".$row['img_name']."'></div>";
-                 echo "<div class='divTableCell col-md-3'>". $row['author'] ."</div>";   
-                 echo "<div class='divTableCell col-md-3'>". $row['title'] ."</div>";   
-                 echo "<div class='divTableCell col-md-2'><select name='state'>
-                                                           <option value='0' ".$selected.">Not available</option>
-                                                           <option value='1' ".$selected.">Available</option>
-                                                          </select></div>";
+                 echo "<div class='divTableCell col-md-2'>". $row['author'] ."</div>";   
+                 echo "<div class='divTableCell col-md-3'>". $row['title'] ."</div>";  
+                 echo "<div class='divTableCell col-md-2'>". $state ."</div>";   
                  echo "<input type='hidden' name='prevState' value='".$row['state']."'>"; 
                  echo "<input type='hidden' name='userId' value='".$row['user_id']."'>"; 
                  echo "<input type='hidden' name='bookId' value='".$row['book_id']."'>"; 
-                 echo "<div class='divTableCell col-md-2 text-right'><input class='btn-link' type='submit' name='changeState' value='Save'></div>";
+
+                 if($row['state'] === '1'){
+                    echo "<input type='hidden' name='state' value='0'>"; 
+                    echo "<div class='divTableCell col-md-2'>
+                    <input class='btn btn-primary' type='submit' name='changeState' value='Make it Unavailable'>
+                    </div>";
+                   }else {
+                    echo "<input type='hidden' name='state' value='1'>"; 
+                    echo "<div class='divTableCell col-md-2'>
+                    <input class='btn btn-primary' type='submit' name='changeState' value='Make it Available'>
+                    </div>";
+                   }
                  echo "</form>";
                  echo "</div>";
                }
@@ -254,30 +263,24 @@ include "includes/head.php";
             <h1>Sent Requests</h1>
             <div class="divTableHeading">
               <div class="divTableRow">
-                <div class="divTableHead col-md-3">Book</div>
-                <div class="divTableHead col-md-3">Book Owner</div>
-                <div class="divTableHead col-md-3">Return Date</div>
+                <div class="divTableHead col-md-6">Book</div>
+                <div class="divTableHead col-md-2">Book Owner</div>
+                <div class="divTableHead col-md-2">Return Date</div>
                 <div class="divTableHead col-md-2">State</div>
-                <div class="divTableHead col-md-1">&nbsp</div>
               </div>
             </div>
             <div class="divTableBody">
                <?php 
-                // $query = "SELECT r.borrower_id, r.is_answered, r.return_date, b.title, b.author, b.img_name, concat(u.first_name, ' ', u.last_name) as full_name, ub.*, b.title FROM requests r join user_books ub on r.owner_id = ub.user_id join books b on r.book_id = b.isbn join users u on u.id = ub.user_id WHERE r.borrower_id = '{$_SESSION['id']}' and r.is_answered = 'pending'";
+                
                 $query = "SELECT r.*, concat(u.first_name, ' ', u.last_name) as full_name,b.author, b.img_name, b.title FROM requests r join users u on r.owner_id = u.id join books b on r.book_id = b.isbn WHERE is_answered = 'pending' and borrower_id = '{$_SESSION['id']}';";
                 $result = mysqli_query($connection, $query);
                 
                 while ($row = mysqli_fetch_assoc($result)){
                   echo "<div class='divTableRow'>";
-                  echo "<form action='includes/updateRequests.php' method='POST'>";
-                  echo "<div class='divTableHead col-md-3'><i>Title: </i>\" <b>".$row['title']."</b>\"<br><i> Written by:</i> <b>".$row['author']."</b><br><img class='img-thumbnail  m-5 p-5' src='img/".$row['img_name']."'></div>";
-                  echo "<div class='divTableHead col-md-3'>".$row['full_name']."</div>";
-                  echo "<div class='divTableHead col-md-3'>".$row['return_date']."</div>";
-                  echo "<div class='divTableHead col-md-3'>".$row['is_answered']."</div>";
-                  echo "<input type='hidden' name='prevState' value='".$row['is_answered']."'>"; 
-                  echo "<input type='hidden' name='bookId' value='".$row['book_id']."'>"; 
-                  echo "<input type='hidden' name='borrowerId' value='".$row['borrower_id']."'>"; 
-                  echo "</form>";
+                  echo "<div class='divTableHead col-md-6'><i>Title: </i>\" <b>".$row['title']."</b>\"<br><i> Written by:</i> <b>".$row['author']."</b></div>";
+                  echo "<div class='divTableHead col-md-2'>".$row['full_name']."</div>";
+                  echo "<div class='divTableHead col-md-2'>".$row['return_date']."</div>";
+                  echo "<div class='divTableHead col-md-2'>Pending</div>";
                   echo "</div>";
                 }
                 
