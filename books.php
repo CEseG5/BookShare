@@ -121,12 +121,12 @@ include "includes/head.php";
                  if($row['state'] === '1'){
                     echo "<input type='hidden' name='state' value='0'>"; 
                     echo "<div class='divTableCell col-md-2'>
-                    <input class='btn btn-primary' type='submit' name='changeState' value='Make it Unavailable'>
+                    <input class='btn bg-success' type='submit' name='changeState' value='Make it Unavailable'>
                     </div>";
                    }else {
                     echo "<input type='hidden' name='state' value='1'>"; 
                     echo "<div class='divTableCell col-md-2'>
-                    <input class='btn btn-primary' type='submit' name='changeState' value='Make it Available'>
+                    <input class='btn bg-success' type='submit' name='changeState' value='Make it Available'>
                     </div>";
                    }
                  echo "</form>";
@@ -163,7 +163,7 @@ include "includes/head.php";
                 echo "<div class='divTableHead col-md-6'><strong>\"".$row['title']."\" </strong>By: ".$row['author']."</div>";
                 echo "<div class='divTableHead col-md-2'>".$row['fullName']."</div>";
                 echo "<div class='divTableHead col-md-2'>".$row['return_date']."</div>";
-                echo "<div class='divTableHead'><input type='submit' name='return' value='Return'/></div>";
+                echo "<div class='divTableHead'><input class='btn bg-success' type='submit' name='return' value='Return'/></div>";
                 echo "</form>";
                 echo "</div>";
               }
