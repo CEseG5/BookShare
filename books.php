@@ -107,7 +107,7 @@ include "includes/head.php";
                 
                 while ($row = mysqli_fetch_assoc($result)){
                  $state = $row['state'] === '1' ? 'Available' : 'Not Available';
-
+                 
                  echo "<div class='divTableRow'>";
                  echo "<form action='changeBookStatus.php' method='POST'>";
                  echo "<div class='divTableCell col-md-2'><img src='img/".$row['img_name']."'></div>";
@@ -212,7 +212,7 @@ include "includes/head.php";
           </div>
           
           <div class="divTable col-md-12">
-            <h1>Return Requests <small>This can be moved to current rentals as <strong>Lent</strong></small></h1>
+            <h1>Return Requests</h1>
             <div class="divTableHeading">
               <div class="divTableRow">
                 <div class="divTableHead col-md-6">Book</div>
@@ -223,11 +223,11 @@ include "includes/head.php";
             </div>
             <div class="divTableBody">
                <?php 
-                $query = "SELECT concat(u.first_name, ' ', u.last_name) as fullName, b.title, b.author, r.* , bo.* FROM requests r 
-                          left join borrowed bo on r.id = bo.request_id
+                $query = "SELECT concat(u.first_name, ' ', u.last_name) as fullName, b.title, b.author, r.id as requestId, r.borrower_id, r.owner_id, r.book_id, r.is_answered, r.return_date , bo.* FROM borrowed bo 
+                          join requests r on r.id = bo.request_id
                           join books b on r.book_id = b.isbn
                           join users u on r.borrower_id = u.id 
-                          WHERE r.owner_id = '{$_SESSION['id']}' and r.is_answered = 'approved' ";
+                          WHERE r.owner_id = '{$_SESSION['id']}' and bo.is_returned = 'pending' ";
                 $result = mysqli_query($connection, $query);
 
                 while ($row = mysqli_fetch_assoc($result)){
@@ -237,12 +237,9 @@ include "includes/head.php";
                   echo "<div class='divTableHead col-md-6'><strong>\"".$row['title']."\" </strong>By: ".$row['author']."</div>";
                   echo "<div class='divTableHead col-md-2'>".$row['fullName']."</div>";
                   echo "<div class='divTableHead col-md-2'>".$row['return_date']."</div>";
-                  if(!(is_null($row['is_returned']) && ( strtotime($row['return_date']) > strtotime(date("Y-m-d")) ))){
-                    echo "<div class='divTableCell col-md-1'><input class='btn bg-success' type='submit' name='updateApprovedRequest' value='Returned'></div>" ;
-                    echo"<div class='divTableCell col-md-1'><input class='btn bg-danger text-right' type='submit' name='updateApprovedRequest' value='Lost'></div>";
-                  }else{
-                    echo "<div class='divTableCell col-md-2'>Rented</div>";
-                  }
+                  echo "<div class='divTableCell col-md-1'><input class='btn bg-success' type='submit' name='returned' value='Returned'></div>" ;
+                  echo"<div class='divTableCell col-md-1'><input class='btn bg-danger text-right' type='submit' name='notreturned' value='Lost'></div>";
+                  echo "<input type='hidden' name='requestId' value='".$row['requestId']."'>"; 
                   echo "<input type='hidden' name='bookId' value='".$row['book_id']."'>"; 
                   echo "<input type='hidden' name='borrowerId' value='".$row['borrower_id']."'>"; 
                   
