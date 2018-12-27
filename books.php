@@ -146,10 +146,10 @@ include "includes/head.php";
           <div class="divTable col-md-12">
             <div class="divTableHeading">
               <div class="divTableRow">
-                <div class="divTableHead col-md-4">Title</div>
-                <div class="divTableHead col-md-3">Author</div>
+                <div class="divTableHead col-md-6">Book</div>
+                <div class="divTableHead col-md-2">Owner</div>
                 <div class="divTableHead col-md-2">Due Date</div>
-                <div class="divTableHead col-md-1">Return Book</div>                
+                <div class="divTableHead col-md-1">Action</div>                
               </div>
             </div>
             <div class="divTableBody">
@@ -160,8 +160,8 @@ include "includes/head.php";
 
                 echo "<div class='divTableRow'>";
                 echo "<form action='includes/updateRequests.php' method='POST'>";
-                echo "<div class='divTableHead col-md-3'>".$row['title']."</div>";
-                echo "<div class='divTableHead col-md-4'>".$row['author']."</div>";
+                echo "<div class='divTableHead col-md-6'><strong>\"".$row['title']."\" </strong>By: ".$row['author']."</div>";
+                echo "<div class='divTableHead col-md-2'>".$row['fullName']."</div>";
                 echo "<div class='divTableHead col-md-2'>".$row['return_date']."</div>";
                 echo "<div class='divTableHead'><input type='submit' name='return' value='Return'/></div>";
                 echo "</form>";
