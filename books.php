@@ -69,10 +69,10 @@ include "includes/head.php";
               <a class="nav-link" id="rentals-tab" data-toggle="tab" href="#rentals" role="tab" aria-controls="rentals" aria-selected="false">Current Rentals</a>
             </li>            
             <li class="nav-item">
-              <a class="nav-link" id="requests-tab" data-toggle="tab" href="#requests" role="tab" aria-controls="requests" aria-selected="false" >Recived Requests</a>
+              <a class="nav-link" id="requests-tab" data-toggle="tab" href="#requests" role="tab" aria-controls="requests" aria-selected="false" >Lend Requests</a>
             </li>
             <li class="nav-item" id="sent_requests-tab">
-              <a class="nav-link" data-toggle="tab" href="#sent_requests" role="tab" aria-controls="sent_requests" aria-selected="false" >Sent Requests</a>
+              <a class="nav-link" data-toggle="tab" href="#sent_requests" role="tab" aria-controls="sent_requests" aria-selected="false" >Borrow Requests</a>
             </li>
           </ul>
         </div>
@@ -182,7 +182,7 @@ include "includes/head.php";
         <div class="tab-pane" id="requests" role="tabpanel" aria-labelledby="requests-tab">
 
           <div class="divTable col-md-12">
-            <h1>Requests</h1>
+            <!-- <h1>Lend Requests</h1> -->
             <div class="divTableHeading">
               <div class="divTableRow">
                 <div class="divTableHead col-md-6">Book</div>
@@ -219,11 +219,11 @@ include "includes/head.php";
           </div>
           
           <div class="divTable col-md-12">
-            <h1>Approved</h1>
+            <h1>Return Requests <small>This can be moved to current rentals as <strong>Lent</strong></small></h1>
             <div class="divTableHeading">
               <div class="divTableRow">
                 <div class="divTableHead col-md-6">Book</div>
-                <div class="divTableHead col-md-2">Borrowed by</div>
+                <div class="divTableHead col-md-2">Lent to</div>
                 <div class="divTableHead col-md-2">Return Date</div>
                 <div class="divTableHead col-md-2">Action</div>    
               </div>
@@ -267,13 +267,13 @@ include "includes/head.php";
         <div class="tab-pane" id="sent_requests" role="tabpanel" aria-labelledby="requests-tab">
 
           <div class="divTable col-md-12">
-            <h1>Sent Requests</h1>
+            <!-- <h1>Sent Requests</h1> -->
             <div class="divTableHeading">
               <div class="divTableRow">
                 <div class="divTableHead col-md-6">Book</div>
                 <div class="divTableHead col-md-2">Book Owner</div>
                 <div class="divTableHead col-md-2">Return Date</div>
-                <div class="divTableHead col-md-2">State</div>
+                <div class="divTableHead col-md-2">Status</div>
               </div>
             </div>
             <div class="divTableBody">
