@@ -185,34 +185,32 @@ include "includes/head.php";
             <h1>Requests</h1>
             <div class="divTableHeading">
               <div class="divTableRow">
-                <div class="divTableHead col-md-3">Book</div>
-                <div class="divTableHead col-md-3">Requested by</div>
-                <div class="divTableHead col-md-3">Return Date</div>
-                <div class="divTableHead col-md-2">State</div>
-                <div class="divTableHead col-md-1">&nbsp</div>
+                <div class="divTableHead col-md-6">Book</div>
+                <div class="divTableHead col-md-2">Requested by</div>
+                <div class="divTableHead col-md-2">Return Date</div>
+                <div class="divTableHead col-md-2">Action</div>
               </div>
             </div>
             <div class="divTableBody">
                <?php 
-                $query = "SELECT * FROM requests WHERE owner_id = '{$_SESSION['id']}' and is_answered = 'Pending' ";
+                $query = "SELECT concat(u.first_name, ' ', u.last_name) as fullName, b.title, b.author, r.* FROM requests r 
+                          join books b on r.book_id = b.isbn
+                          join users u on r.borrower_id = u.id 
+                          WHERE owner_id = '{$_SESSION['id']}' and is_answered = 'Pending' ";
                 $result = mysqli_query($connection, $query);
 
                 while ($row = mysqli_fetch_assoc($result)){
 
                   echo "<div class='divTableRow'>";
                   echo "<form action='includes/updateRequests.php' method='POST'>";
-                  echo "<div class='divTableHead col-md-3'>".$row['book_id']."</div>";
-                  echo "<div class='divTableHead col-md-3'>".$row['borrower_id']."</div>";
-                  echo "<div class='divTableHead col-md-3'>".$row['return_date']."</div>";
-                  echo "<div class='divTableCell col-md-2'><select name='state'>
-                                                           <option value='pending'>Pending</option>
-                                                           <option value='approved'>Approve</option>
-                                                           <option value='rejected'>Reject</option>
-                                                          </select></div>";
+                  echo "<div class='divTableHead col-md-6'><strong>\"".$row['title']."\" </strong>By: ".$row['author']."</div>";
+                  echo "<div class='divTableHead col-md-2'>".$row['fullName']."</div>";
+                  echo "<div class='divTableHead col-md-2'>".$row['return_date']."</div>";
+                  echo "<div class='divTableCell col-md-1'><input class='btn bg-success' type='submit' name='updateRequest' value='Approve'></div>";
+                  echo "<div class='divTableCell col-md-1'><input class='btn bg-danger' type='submit' name='updateRequest' value='Reject'></div>";
                   echo "<input type='hidden' name='prevState' value='".$row['is_answered']."'>"; 
                   echo "<input type='hidden' name='bookId' value='".$row['book_id']."'>"; 
                   echo "<input type='hidden' name='borrowerId' value='".$row['borrower_id']."'>"; 
-                  echo "<div class='divTableCell col-md-1 text-right'><input class='btn-link' type='submit' name='updateRequest' value='Save'></div>";
                   echo "</form>";
                   echo "</div>";
                 }
@@ -224,32 +222,41 @@ include "includes/head.php";
             <h1>Approved</h1>
             <div class="divTableHeading">
               <div class="divTableRow">
-                <div class="divTableHead col-md-3">Book</div>
-                <div class="divTableHead col-md-3">Borrowed by</div>
-                <div class="divTableHead col-md-3">Due Date</div>
-                <div class="divTableHead col-md-3">Status</div>    
+                <div class="divTableHead col-md-6">Book</div>
+                <div class="divTableHead col-md-2">Borrowed by</div>
+                <div class="divTableHead col-md-2">Return Date</div>
+                <div class="divTableHead col-md-2">Action</div>    
               </div>
             </div>
             <div class="divTableBody">
                <?php 
-               
-                $query = "SELECT * FROM requests WHERE owner_id = '{$_SESSION['id']}' and is_answered = 'approved' ";
+                $query = "SELECT concat(u.first_name, ' ', u.last_name) as fullName, b.title, b.author, r.* , bo.* FROM requests r 
+                          left join borrowed bo on r.id = bo.request_id
+                          join books b on r.book_id = b.isbn
+                          join users u on r.borrower_id = u.id 
+                          WHERE r.owner_id = '{$_SESSION['id']}' and r.is_answered = 'approved' ";
                 $result = mysqli_query($connection, $query);
 
                 while ($row = mysqli_fetch_assoc($result)){
-
-                  echo "<div class='divTableRow'>";
-                  echo "<div class='divTableHead col-md-3'>".$row['book_id']."</div>";
-                  echo "<div class='divTableHead col-md-3'>".$row['borrower_id']."</div>";
-                  echo "<div class='divTableHead col-md-3'>".$row['return_date']."</div>";
-                  echo "<div class='divTableCell col-md-3'><select name='state'>
-                                                           <option value='0'>Pending</option>
-                                                           <option value='0'>Returned</option>
-                                                           <option value='1'>Not Returned</option>
-                                                          </select></div>";
+    
+                  echo "<div class='divTableRow'>";                  
+                  echo "<form action='includes/updateRequests.php' method='POST'>";
+                  echo "<div class='divTableHead col-md-6'><strong>\"".$row['title']."\" </strong>By: ".$row['author']."</div>";
+                  echo "<div class='divTableHead col-md-2'>".$row['fullName']."</div>";
+                  echo "<div class='divTableHead col-md-2'>".$row['return_date']."</div>";
+                  if(!(is_null($row['is_returned']) && ( strtotime($row['return_date']) > strtotime(date("Y-m-d")) ))){
+                    echo "<div class='divTableCell col-md-1'><input class='btn bg-success' type='submit' name='updateApprovedRequest' value='Returned'></div>" ;
+                    echo"<div class='divTableCell col-md-1'><input class='btn bg-danger text-right' type='submit' name='updateApprovedRequest' value='Lost'></div>";
+                  }else{
+                    echo "<div class='divTableCell col-md-2'>Rented</div>";
+                  }
+                  echo "<input type='hidden' name='bookId' value='".$row['book_id']."'>"; 
+                  echo "<input type='hidden' name='borrowerId' value='".$row['borrower_id']."'>"; 
+                  
+                  echo "</form>";
                   echo "</div>";
                 }
-                 ?>   
+                 ?>  
             </div>
           </div>
 
