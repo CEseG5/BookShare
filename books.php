@@ -149,32 +149,25 @@ include "includes/head.php";
                 <div class="divTableHead col-md-4">Title</div>
                 <div class="divTableHead col-md-3">Author</div>
                 <div class="divTableHead col-md-2">Due Date</div>
-                <div class="divTableHead col-md-2">Status</div>                
-                <div class="divTableHead col-md-1">&nbsp</div>
+                <div class="divTableHead col-md-1">Return Book</div>                
               </div>
             </div>
             <div class="divTableBody">
-              <div class="divTableRow">
-                <div class="divTableCell col-md-4">cell1_1</div>
-                <div class="divTableCell col-md-3">cell2_1</div>
-                <div class="divTableCell col-md-2">cell3_1</div>
-                <div class="divTableCell col-md-2">cell3_1</div>
-                <div class="divTableCell col-md-1 text-right"><a href="">Edit</a></div>
-              </div>
-              <div class="divTableRow">
-                <div class="divTableCell col-md-4">cell1_2</div>
-                <div class="divTableCell col-md-3">cell2_2</div>
-                <div class="divTableCell col-md-2">cell3_2</div>
-                <div class="divTableCell col-md-2">cell3_2</div>
-                <div class="divTableCell col-md-1 text-right"><a href="">Edit</a></div>
-              </div>
-              <div class="divTableRow">
-                <div class="divTableCell col-md-4">cell1_3</div>
-                <div class="divTableCell col-md-3">cell2_3</div>
-                <div class="divTableCell col-md-2">cell3_3</div>
-                <div class="divTableCell col-md-2">cell3_3</div>
-                <div class="divTableCell col-md-1 text-right"><a href="">Edit</a></div>
-              </div>
+           <?php
+              $query = "SELECT concat(u.first_name, ' ', u.last_name) as fullName, b.title,ub.book_id, r.borrower_id, b.author,r.return_date, r.is_answered FROM requests r join user_books ub on r.book_id = ub.book_id join books b on r.book_id = b.isbn join users u on r.owner_id = u.id WHERE borrower_id = {$_SESSION['id']} and is_answered = 'approved';";
+              $result = mysqli_query($connection, $query);
+              while ($row = mysqli_fetch_assoc($result)){
+
+                echo "<div class='divTableRow'>";
+                echo "<form action='includes/updateRequests.php' method='POST'>";
+                echo "<div class='divTableHead col-md-3'>".$row['title']."</div>";
+                echo "<div class='divTableHead col-md-4'>".$row['author']."</div>";
+                echo "<div class='divTableHead col-md-2'>".$row['return_date']."</div>";
+                echo "<div class='divTableHead'><input type='submit' name='return' value='Return'/></div>";
+                echo "</form>";
+                echo "</div>";
+              }
+               ?>
             </div>
           </div>
         </div>
