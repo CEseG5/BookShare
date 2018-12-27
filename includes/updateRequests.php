@@ -7,7 +7,7 @@
 	$prevState = $_POST['prevState'];
 	$state = $_POST['state'];
 
-	if(isset($_POST['updateRequest']) && $state !== 'pending') {
+	if(isset($_POST['updateRequest'])) {
 
 		if($state === 'rejected'){
 			$query = "UPDATE requests SET `is_answered` = '{$state}' WHERE `owner_id` = {$owner_id} AND `book_id` = {$book_id}  AND borrower_id =  {$borrower_id} ";
@@ -26,10 +26,10 @@
 		if($result){
 			session_start();
 			$_SESSION['msg'] = "Yey!";
-			header('location: ../books.php');
+			header('location: ../books.php#requests');
 		}
 	}else {
-		header('location: ../books.php');
+		header('location: ../books.php#requests');
 	}
 
  ?>
