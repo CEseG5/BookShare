@@ -141,8 +141,18 @@ include "includes/head.php";
               <h2 id="latest">Latest Books</h2>
               <div class="row">
                 <?php 
-                  $userLoggedIn = !isset($_SESSION['id']) ? "" :  "where  ub.user_id != '{$_SESSION['id']}' and ub.state = 1";
-                  $query = "SELECT u.id,b.img_name, b.author, ub.user_id, ub.book_id, c.name, u.address FROM books b join user_books ub on b.isbn = ub.book_id join users u on ub.user_id = u.id join cities c on c.id = u.city_id $userLoggedIn order by ub.date_registered DESC LIMIT 6 ";
+                  $userLoggedInCon1 = !isset($_SESSION['id']) ? "" :  "and ub.user_id != '{$_SESSION['id']}' ";
+                  $userLoggedInCon2 = !isset($_SESSION['id']) ? "" :  "where r.is_answered = 'rejected' or r.is_answered is null";
+
+                  $query = "SELECT u.id,b.img_name, b.author, ub.user_id, ub.book_id, c.name, u.address 
+                            FROM books b 
+                            JOIN user_books ub on b.isbn = ub.book_id and ub.state = 1 $userLoggedInCon1 
+                            INNER JOIN users u on u.id = ub.user_id
+                            INNER JOIN cities c on c.id = u.city_id
+                            LEFT JOIN requests r on r.book_id = ub.book_id and r.owner_id = ub.user_id $userLoggedInCon2
+                            ORDER BY ub.date_registered 
+                            DESC LIMIT 6 ";
+                            
                   $result = mysqli_query($connection, $query);
                   $hidden = !isset($_SESSION['email']) ? "hidden" : "" ;
                   
