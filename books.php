@@ -99,15 +99,16 @@ include "includes/head.php";
               <div class="divTableBody">
 
                 <?php 
-                $query = "SELECT b.img_name, b.title, b.author, u.email, ub.state, ub.user_id, ub.book_id FROM books b
-                LEFT JOIN user_books ub on b.isbn = ub.book_id 
-                LEFT JOIN users u on ub.user_id = u.id 
-                WHERE u.email = '{$_SESSION['email']}' ";
+                $query = "SELECT b.img_name, b.title, b.author, u.email, ub.state, ub.user_id, ub.book_id, r.is_answered
+                FROM books b
+                JOIN user_books ub on b.isbn = ub.book_id and ub.user_id = '{$_SESSION['id']}'
+                INNER JOIN users u on ub.user_id = u.id 
+                LEFT JOIN requests r on r.book_id = ub.book_id and r.owner_id = ub.user_id ";
                 $result = mysqli_query($connection, $query);
                 
                 while ($row = mysqli_fetch_assoc($result)){
                  $state = $row['state'] === '1' ? 'Available' : 'Not Available';
-                 
+                 $disable =  ($row['is_answered'] === 'approved' OR $row['is_answered'] === 'pending') ? "disabled = 'disabled'" : "";
                  echo "<div class='divTableRow'>";
                  echo "<form action='changeBookStatus.php' method='POST'>";
                  echo "<div class='divTableCell col-md-2'><img src='img/".$row['img_name']."'></div>";
@@ -121,12 +122,12 @@ include "includes/head.php";
                  if($row['state'] === '1'){
                     echo "<input type='hidden' name='state' value='0'>"; 
                     echo "<div class='divTableCell col-md-2'>
-                    <input class='btn bg-success' type='submit' name='changeState' value='Make it Unavailable'>
+                    <input class='btn bg-success' ".$disable." type='submit' name='changeState' value='Make it Unavailable'>
                     </div>";
                    }else {
                     echo "<input type='hidden' name='state' value='1'>"; 
                     echo "<div class='divTableCell col-md-2'>
-                    <input class='btn bg-success' type='submit' name='changeState' value='Make it Available'>
+                    <input class='btn bg-success' ".$disable."type='submit' name='changeState' value='Make it Available'>
                     </div>";
                    }
                  echo "</form>";
