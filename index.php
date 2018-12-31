@@ -141,17 +141,30 @@ include "includes/head.php";
               <h2 id="latest">Latest Books</h2>
               <div class="row">
                 <?php 
-                  $userLoggedInCon1 = !isset($_SESSION['id']) ? "" :  "and ub.user_id != '{$_SESSION['id']}' ";
-                  $userLoggedInCon2 = !isset($_SESSION['id']) ? "" :  "where r.is_answered = 'rejected' or r.is_answered is null";
 
-                  $query = "SELECT u.id,b.img_name, b.author, ub.user_id, ub.book_id, c.name, u.address 
+                  if(isset($_SESSION['id'])){
+                     $query = "SELECT u.id,b.img_name, b.author, ub.user_id, ub.book_id, c.name, u.address 
                             FROM books b 
-                            JOIN user_books ub on b.isbn = ub.book_id and ub.state = 1 $userLoggedInCon1 
+                            JOIN user_books ub on ub.book_id = b.isbn and ub.state = 1 and ub.user_id != '{$_SESSION['id']}'  
                             INNER JOIN users u on u.id = ub.user_id
                             INNER JOIN cities c on c.id = u.city_id
-                            LEFT JOIN requests r on r.book_id = ub.book_id and r.owner_id = ub.user_id $userLoggedInCon2
+                            LEFT JOIN requests r on ub.book_id = r.book_id and ub.user_id = r.owner_id and r.borrower_id = '{$_SESSION['id']}' 
+                              WHERE concat(b.title, b.author, b.isbn) LIKE '%%'and r.is_answered is null or r.is_answered != 'approved' and r.is_answered != 'pending'
+                            ORDER BY ub.date_registered 
+                            DESC LIMIT 6 ";                    
+                  }else{
+                    $query = "SELECT u.id,b.img_name, b.author, ub.user_id, ub.book_id, c.name, u.address 
+                            FROM books b 
+                            JOIN user_books ub on ub.book_id = b.isbn and ub.state = 1 
+                            INNER JOIN users u on u.id = ub.user_id
+                            INNER JOIN cities c on c.id = u.city_id
+                            LEFT JOIN requests r on ub.book_id = r.book_id and ub.user_id = r.owner_id 
+                              WHERE concat(b.title, b.author, b.isbn) LIKE '%%'and r.is_answered is null or r.is_answered != 'approved' 
                             ORDER BY ub.date_registered 
                             DESC LIMIT 6 ";
+                  }
+
+                 
                             
                   $result = mysqli_query($connection, $query);
                   $hidden = !isset($_SESSION['email']) ? "hidden" : "" ;

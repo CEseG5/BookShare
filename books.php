@@ -155,7 +155,7 @@ include "includes/head.php";
             </div>
             <div class="divTableBody">
            <?php
-              $query = "SELECT concat(u.first_name, ' ', u.last_name) as fullName, b.title,ub.book_id, r.borrower_id, b.author,r.return_date, r.is_answered FROM requests r join user_books ub on r.book_id = ub.book_id join books b on r.book_id = b.isbn join users u on r.owner_id = u.id WHERE borrower_id = {$_SESSION['id']} and is_answered = 'approved';";
+              $query = "SELECT concat(u.first_name, ' ', u.last_name) as fullName, b.title,ub.book_id, r.borrower_id, b.author,r.return_date, r.is_answered FROM requests r join user_books ub on r.book_id = ub.book_id join books b on r.book_id = b.isbn and ub.user_id = r.owner_id  join users u on r.owner_id = u.id WHERE borrower_id = {$_SESSION['id']} and is_answered = 'approved';";
               $result = mysqli_query($connection, $query);
               while ($row = mysqli_fetch_assoc($result)){
 
