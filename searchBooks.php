@@ -55,11 +55,12 @@ include "includes/head.php";
               $idlook  =  mysqli_query($connection,"select  id  from  users");
 
               
-              $searchQuery = "SELECT u.id, u.address,b.img_name, b.title, b.author, ub.state, u.last_name, u.first_name, ub.book_id, ub.user_id, c.id, c.name as city_name FROM books b 
-              LEFT JOIN user_books ub on b.isbn = ub.book_id 
-              LEFT JOIN users u on u.id = ub.user_id
-              LEFT JOIN cities c on u.city_id = c.id
-              WHERE  concat(b.title, b.author, b.isbn) LIKE '%$search%' and ub.state = 1  AND  ub.user_id  !=  '{$_SESSION['id']}' " ;
+              $searchQuery = "SELECT u.address,b.img_name, b.title, b.author, ub.state, u.last_name, u.first_name, ub.book_id, ub.user_id, c.name as city_name, r.is_answered
+                              FROM books b JOIN user_books ub on ub.book_id = b.isbn and ub.state = 1 and ub.user_id != '{$_SESSION['id']}'
+                              INNER JOIN users u on u.id = ub.user_id
+                              INNER JOIN cities c on c.id = u.city_id          
+                              LEFT JOIN requests r on r.book_id = ub.book_id and r.owner_id = ub.user_id  
+                              WHERE r.is_answered = 'rejected' or r.is_answered is null" ;
 
               if($city_filter != ''){
                 $searchQuery .= "AND c.id LIKE {$city_filter}";
@@ -74,7 +75,7 @@ include "includes/head.php";
                   $state = ($row['state'] == '1' ? 'Available' : 'Not Available');
                   $id = $row['user_id'].$row['book_id'];
                   
-                  $user_id = $row['id'];
+                  $user_id = $row['user_id'];
                   $city_address = $row['city_name'].' '.$row['address'];
                   $book_id = $row['book_id'];
 
