@@ -224,11 +224,11 @@ include "includes/head.php";
             </div>
             <div class="divTableBody">
                <?php 
-                $query = "SELECT concat(u.first_name, ' ', u.last_name) as fullName, b.title, b.author, r.id as requestId, r.borrower_id, r.owner_id, r.book_id, r.is_answered, r.return_date , bo.* FROM borrowed bo 
-                          join requests r on r.id = bo.request_id
+                $query = "SELECT concat(u.first_name, ' ', u.last_name) as fullName, b.title, b.author, r.id as requestId, r.borrower_id, r.owner_id, r.book_id, r.is_answered, r.return_date ,  rr.* FROM return_requests rr 
+                          join requests r on r.id =  rr.request_id
                           join books b on r.book_id = b.isbn
                           join users u on r.borrower_id = u.id 
-                          WHERE r.owner_id = '{$_SESSION['id']}' and bo.is_returned = 'pending' ";
+                          WHERE r.owner_id = '{$_SESSION['id']}' and  rr.is_returned = 'pending' ";
                 $result = mysqli_query($connection, $query);
 
                 while ($row = mysqli_fetch_assoc($result)){

@@ -32,10 +32,10 @@
 
 	}else if(isset($_POST['returned'])) {
 
-		$query = "UPDATE borrowed SET `is_returned` = 'returned' WHERE `request_id` =  $request_id ";
+		$query = "UPDATE return_requests SET `is_returned` = 'returned' WHERE `request_id` =  $request_id ";
 
 	}else if(isset($_POST['notreturned'])){
-		$query = "UPDATE borrowed SET `is_returned` = 'not returned' WHERE `request_id` =  $request_id ";
+		$query = "UPDATE return_requests SET `is_returned` = 'not returned' WHERE `request_id` =  $request_id ";
 	}
 	else {
 		header('location: ../books.php');
