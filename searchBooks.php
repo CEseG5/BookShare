@@ -54,13 +54,13 @@ include "includes/head.php";
               $userId  =  $_SESSION['id'];
               $idlook  =  mysqli_query($connection,"select  id  from  users");
 
-              
-              $searchQuery = "SELECT u.address,b.img_name, b.title, b.author, ub.state, u.last_name, u.first_name, ub.book_id, ub.user_id, c.name as city_name, r.is_answered
-                              FROM books b JOIN user_books ub on ub.book_id = b.isbn and ub.state = 1 and ub.user_id != '{$_SESSION['id']}'
+              $searchQuery = "SELECT u.address,b.img_name, b.title, b.author, ub.state, u.last_name, u.first_name, ub.book_id, ub.user_id, c.name as city_name, r.is_answered, r.borrower_id
+                              FROM books b JOIN user_books ub on ub.book_id = b.isbn and ub.state = 1 and ub.user_id != '{$_SESSION['id']}'  
                               INNER JOIN users u on u.id = ub.user_id
                               INNER JOIN cities c on c.id = u.city_id          
-                              LEFT JOIN requests r on r.book_id = ub.book_id and r.owner_id = ub.user_id  
-                              WHERE concat(b.title, b.author, b.isbn) LIKE '%$search%' and r.is_answered = 'rejected' or r.is_answered is null" ;
+                              LEFT JOIN requests r on ub.book_id = r.book_id and ub.user_id = r.owner_id and r.borrower_id = '{$_SESSION['id']}' 
+                              WHERE concat(b.title, b.author, b.isbn) LIKE '%$search%'and r.is_answered is null or r.is_answered != 'approved' and r.is_answered != 'pending'
+                               " ;
 
               if($city_filter != ''){
                 $searchQuery .= "AND c.id LIKE {$city_filter}";

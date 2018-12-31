@@ -149,22 +149,18 @@ include "includes/head.php";
                             INNER JOIN users u on u.id = ub.user_id
                             INNER JOIN cities c on c.id = u.city_id
                             LEFT JOIN requests r on ub.book_id = r.book_id and ub.user_id = r.owner_id and r.borrower_id = '{$_SESSION['id']}' 
-                              WHERE concat(b.title, b.author, b.isbn) LIKE '%%'and r.is_answered is null or r.is_answered != 'approved' and r.is_answered != 'pending'
+                              WHERE r.is_answered is null or r.is_answered != 'approved' and r.is_answered != 'pending'
                             ORDER BY ub.date_registered 
                             DESC LIMIT 6 ";                    
                   }else{
-                    $query = "SELECT u.id,b.img_name, b.author, ub.user_id, ub.book_id, c.name, u.address 
+                    $query = "SELECT u.id,b.img_name, b.author, ub.user_id, ub.book_id, c.name, u.address , b.title
                             FROM books b 
-                            JOIN user_books ub on ub.book_id = b.isbn and ub.state = 1 
+                            INNER JOIN user_books ub on ub.book_id = b.isbn and ub.state = 1  
                             INNER JOIN users u on u.id = ub.user_id
-                            INNER JOIN cities c on c.id = u.city_id
-                            LEFT JOIN requests r on ub.book_id = r.book_id and ub.user_id = r.owner_id 
-                              WHERE concat(b.title, b.author, b.isbn) LIKE '%%'and r.is_answered is null or r.is_answered != 'approved' 
+                            INNER JOIN cities c on c.id = u.city_id  
                             ORDER BY ub.date_registered 
                             DESC LIMIT 6 ";
-                  }
-
-                 
+                  }                
                             
                   $result = mysqli_query($connection, $query);
                   $hidden = !isset($_SESSION['email']) ? "hidden" : "" ;
