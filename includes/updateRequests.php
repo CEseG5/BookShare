@@ -15,6 +15,18 @@
 				END
 				WHERE ( `owner_id` =  $owner_id  AND `book_id` = $book_id )";
 
+		$result = mysqli_query($connection, $query);
+		if($result){		
+			$query = "UPDATE user_books SET `state` = 0 WHERE `user_id` = {$owner_id} AND `book_id` = {$book_id} ";
+			$result = mysqli_query($connection, $query);
+			if($result){
+				session_start();
+				$_SESSION['msg'] = "Updated!";
+				header('location: ../books.php');
+				exit();
+			} 					
+		}
+
 	}else if(isset($_POST['reject'])){
 		$query = "UPDATE requests SET `is_answered` = 'rejected' WHERE `owner_id` = {$owner_id} AND `book_id` = {$book_id}  AND borrower_id =  {$borrower_id} ";
 
