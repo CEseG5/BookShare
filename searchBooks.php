@@ -60,7 +60,7 @@ include "includes/head.php";
                               INNER JOIN users u on u.id = ub.user_id
                               INNER JOIN cities c on c.id = u.city_id          
                               LEFT JOIN requests r on r.book_id = ub.book_id and r.owner_id = ub.user_id  
-                              WHERE r.is_answered = 'rejected' or r.is_answered is null" ;
+                              WHERE concat(b.title, b.author, b.isbn) LIKE '%$search%' and r.is_answered = 'rejected' or r.is_answered is null" ;
 
               if($city_filter != ''){
                 $searchQuery .= "AND c.id LIKE {$city_filter}";
