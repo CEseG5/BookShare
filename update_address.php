@@ -30,23 +30,24 @@ include "includes/head.php";
            
            <?php 
            $loggedin = $_SESSION['email'];
-           $query = "SELECT u.*, c.name as city from users u LEFT JOIN cities c ON u.city_id = c.id where email = '$loggedin'";
+          //  $query = "SELECT u.*, c.name as city from users u LEFT JOIN cities c ON u.city_id = c.id where email = '$loggedin'";
 
-           $state_query = "SELECT ub.state from users u LEFT JOIN user_books ub ON u.id = ub.user_id where email = '$loggedin'";
+          //  $state_query = "SELECT ub.state from users u LEFT JOIN user_books ub ON u.id = ub.user_id where email = '$loggedin'";
 
+          $query = "select c.*, u.*, r.* from cities c join users u on c.id = u.city_id left join requests r on u.id = r.borrower_id where u.email = '$loggedin' and r.is_answered = 'approved'";
 
-           
           $result = mysqli_query($connection, $query);
-          while($row = mysqli_fetch_assoc($result)){
-            $address = $row['address'];
+
+          $query_city_placeholder = "select DISTINCT c.*, u.* from cities c left join users u on c.id = u.city_id where u.id = {$_SESSION['id']}";
+          $result_p_holder = mysqli_query($connection, $query_city_placeholder);
+          while($row_p = mysqli_fetch_assoc($result_p_holder)){
+            $address = $row_p['address']; 
           }
-          $state_query_result = mysqli_query($connection, $state_query);
+          
           $newAddress = '';
           $newCity = '';
           $errors = array();
-          while($row = mysqli_fetch_assoc($state_query_result)) {
-                        $state =  $row['state'];  
-          }
+
           if(isset($_POST['update_profile'])){
 
             $newAddress = mysqli_real_escape_string($connection,$_POST['naddress']);
@@ -55,22 +56,25 @@ include "includes/head.php";
               array_push($errors, "you cannot leave empty fields!"); 
             } elseif($newCity < 1){
               array_push($errors, "Select a proper city");
-            }
-
-          if (count($errors) == 0) {
-            if($state == 1 || $state == ''){      
-              $sql   = "UPDATE users SET address='{$newAddress}', city_id = '{$newCity}' WHERE email ='{$loggedin}'";
-              $res  = mysqli_query($connection,$sql) or die("Could not update ".mysqli_error($connection)); 
-              $_SESSION['email'] = $loggedin;
-              header('location: profile.php');
-            } else {
+            } elseif(mysqli_num_rows($result) > 0) {
               array_push($errors, 'You cannot change your address if you have rented Books!');
+            } else {
+              $sql   = "UPDATE users SET address='{$newAddress}', city_id = '{$newCity}' WHERE email ='{$loggedin}'";
+              mysqli_query($connection,$sql) or die("Could not update ".mysqli_error($connection)); 
+              header('location: profile.php');
+
             }
-          }
+          // if (count($errors) == 0) {
+          //   if(mysqli_num_rows($result) < 1){      
+              
+          //   } else {
+          //     array_push($errors, 'You cannot change your address if you have rented Books!');
+          //   }
+          // }
         }
         ?>
       </div>
-
+      
       <form id="Register" method="POST" action="">
         <div class="form-group">
           <label for='isbn'>Enter Your Address:</label>
@@ -82,7 +86,6 @@ include "includes/head.php";
             <?php
             $query = "select * from cities";
             $result = mysqli_query($connection, $query);
-
             while ($city_row = mysqli_fetch_assoc($result)){
               echo "<option value='{$city_row['id']}'>".$city_row['name']."</option>";
             }
