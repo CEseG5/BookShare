@@ -1,3 +1,7 @@
+.probootstrap-section{
+    min-height: 800px;
+}
+
 .probootstrap-footer {
     padding: 0;
 }
