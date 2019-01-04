@@ -66,7 +66,10 @@ include "includes/head.php";
               <a class="nav-link" id="mybooks-tab" data-toggle="tab" href="#mybooks" role="tab" aria-controls="mybooks" aria-selected="false">My Books</a>
             </li>
             <li class="nav-item ">
-              <a class="nav-link" id="rentals-tab" data-toggle="tab" href="#rentals" role="tab" aria-controls="rentals" aria-selected="false">Current Rentals</a>
+              <a class="nav-link" id="rentals-tab" data-toggle="tab" href="#rentals" role="tab" aria-controls="rentals" aria-selected="false">Borrowed</a>
+            </li>
+            <li class="nav-item" id="current_loans-tab">
+              <a class="nav-link" data-toggle="tab" href="#current_loans" role="tab" aria-controls="current_loans" aria-selected="false" >Lent</a>
             </li>            
             <li class="nav-item">
               <a class="nav-link" id="requests-tab" data-toggle="tab" href="#requests" role="tab" aria-controls="requests" aria-selected="false" >Lend Requests</a>
@@ -99,11 +102,12 @@ include "includes/head.php";
               <div class="divTableBody">
 
                 <?php 
-                $query = "SELECT b.img_name, b.title, b.author, u.email, ub.state, ub.user_id, ub.book_id, r.is_answered
+                $query = "SELECT b.img_name, b.title, b.author, u.email, ub.state,  ub.user_id, ub.book_id, r.is_answered
                 FROM books b
-                JOIN user_books ub on b.isbn = ub.book_id and ub.user_id = '{$_SESSION['id']}'
+                JOIN user_books ub on b.isbn = ub.book_id and ub.user_id = {$_SESSION['id']}
                 INNER JOIN users u on ub.user_id = u.id 
-                LEFT JOIN requests r on r.book_id = ub.book_id and r.owner_id = ub.user_id ";
+                LEFT JOIN requests r on r.book_id = ub.book_id and r.owner_id = ub.user_id
+                GROUP BY ub.book_id ";
                 $result = mysqli_query($connection, $query);
                 
                 while ($row = mysqli_fetch_assoc($result)){
@@ -142,7 +146,7 @@ include "includes/head.php";
             </div>
           </div>
         </div>
-        <!-- Rentals tab -->
+        <!-- Borrowed tab -->
         <div class="tab-pane" id="rentals" role="tabpanel" aria-labelledby="rentals-tab">
           <div class="divTable col-md-12">
             <div class="divTableHeading">
@@ -172,11 +176,63 @@ include "includes/head.php";
             </div>
           </div>
         </div>
-        <!-- Requests tab -->
+
+        <!-- Lent Tab -->
+        <div class="tab-pane" id="current_loans" role="tabpanel" aria-labelledby="current_loans-tab">
+          <div class="divTable col-md-12">
+            <div class="divTableHeading">
+              <div class="divTableRow">
+                <div class="divTableHead col-md-5">Book</div>
+                <div class="divTableHead col-md-2">Lent to</div>
+                <div class="divTableHead col-md-2">Return Date</div>
+                <div class="divTableHead col-md-3">Action</div>    
+              </div>
+            </div>
+            <div class="divTableBody">
+               <?php 
+
+                $query = "SELECT concat(u.first_name, ' ', u.last_name) as fullName, b.title, b.author, r.id as requestId, r.borrower_id, r.owner_id, r.book_id, r.is_answered, r.return_date ,  rr.* 
+                          FROM requests r 
+                          INNER JOIN books b on r.book_id = b.isbn
+                          INNER JOIN users u on r.borrower_id = u.id 
+                          LEFT JOIN return_requests rr on r.id = rr.request_id 
+                          WHERE r.owner_id = 9 and r.is_answered = 'approved' ";          
+                $result = mysqli_query($connection, $query);
+
+                while ($row = mysqli_fetch_assoc($result)){
+    
+                  echo "<div class='divTableRow'>";                  
+                  echo "<form action='includes/updateRequests.php' method='POST'>";
+                  echo "<div class='divTableHead col-md-5'><strong>\"".$row['title']."\" </strong>By: ".$row['author']."</div>";
+                  echo "<div class='divTableHead col-md-2'>".$row['fullName']."</div>";
+                  echo "<div class='divTableHead col-md-2'>".$row['return_date']."</div>";
+
+                  if(is_null($row['is_returned']) && ( strtotime($row['return_date']) < strtotime(date("Y-m-d"))) ){
+                    echo "<div class='divTableCell col-md-3'>Overdue</div>" ;
+                  }else if(!is_null($row['is_returned']) && ($row['is_returned']) === 'pending') {
+                    echo "<div class='divTableCell col-md-1'><input class='btn bg-success' type='submit' name='returned' value='Returned'></div>" ;
+                    echo "<div class='divTableCell col-md-2'><input class='btn bg-danger text-right' type='submit' name='notreturned' value='Not Returned'></div>";
+                  }else {
+                    echo "<div class='divTableCell col-md-3'>Lent</div>";
+                  }
+                  
+
+                  echo "<input type='hidden' name='requestId' value='".$row['requestId']."'>"; 
+                  echo "<input type='hidden' name='bookId' value='".$row['book_id']."'>"; 
+                  echo "<input type='hidden' name='borrowerId' value='".$row['borrower_id']."'>"; 
+                  
+                  echo "</form>";
+                  echo "</div>";
+                }
+                 ?>  
+            </div>
+          </div> 
+        </div>
+
+        <!-- Lend Requests tab -->
         <div class="tab-pane" id="requests" role="tabpanel" aria-labelledby="requests-tab">
 
           <div class="divTable col-md-12">
-            <!-- <h1>Lend Requests</h1> -->
             <div class="divTableHeading">
               <div class="divTableRow">
                 <div class="divTableHead col-md-6">Book</div>
@@ -210,55 +266,12 @@ include "includes/head.php";
                 }
                  ?>   
             </div>
-          </div>
-          
-          <div class="divTable col-md-12">
-            <h1>Return Requests</h1>
-            <div class="divTableHeading">
-              <div class="divTableRow">
-                <div class="divTableHead col-md-6">Book</div>
-                <div class="divTableHead col-md-2">Lent to</div>
-                <div class="divTableHead col-md-2">Return Date</div>
-                <div class="divTableHead col-md-2">Action</div>    
-              </div>
-            </div>
-            <div class="divTableBody">
-               <?php 
-                $query = "SELECT concat(u.first_name, ' ', u.last_name) as fullName, b.title, b.author, r.id as requestId, r.borrower_id, r.owner_id, r.book_id, r.is_answered, r.return_date ,  rr.* FROM return_requests rr 
-                          join requests r on r.id =  rr.request_id
-                          join books b on r.book_id = b.isbn
-                          join users u on r.borrower_id = u.id 
-                          WHERE r.owner_id = '{$_SESSION['id']}' and  rr.is_returned = 'pending' ";
-                $result = mysqli_query($connection, $query);
-
-                while ($row = mysqli_fetch_assoc($result)){
-    
-                  echo "<div class='divTableRow'>";                  
-                  echo "<form action='includes/updateRequests.php' method='POST'>";
-                  echo "<div class='divTableHead col-md-6'><strong>\"".$row['title']."\" </strong>By: ".$row['author']."</div>";
-                  echo "<div class='divTableHead col-md-2'>".$row['fullName']."</div>";
-                  echo "<div class='divTableHead col-md-2'>".$row['return_date']."</div>";
-                  echo "<div class='divTableCell col-md-1'><input class='btn bg-success' type='submit' name='returned' value='Returned'></div>" ;
-                  echo"<div class='divTableCell col-md-1'><input class='btn bg-danger text-right' type='submit' name='notreturned' value='Lost'></div>";
-                  echo "<input type='hidden' name='requestId' value='".$row['requestId']."'>"; 
-                  echo "<input type='hidden' name='bookId' value='".$row['book_id']."'>"; 
-                  echo "<input type='hidden' name='borrowerId' value='".$row['borrower_id']."'>"; 
-                  
-                  echo "</form>";
-                  echo "</div>";
-                }
-                 ?>  
-            </div>
-          </div>
-
-          
-
+          </div>   
         </div>
-        <!-- SENT REQUEST TAB -->
+        <!-- Borrow REQUEST TAB -->
         <div class="tab-pane" id="sent_requests" role="tabpanel" aria-labelledby="requests-tab">
 
           <div class="divTable col-md-12">
-            <!-- <h1>Sent Requests</h1> -->
             <div class="divTableHeading">
               <div class="divTableRow">
                 <div class="divTableHead col-md-6">Book</div>
