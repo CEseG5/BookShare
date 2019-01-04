@@ -192,12 +192,11 @@ include "includes/head.php";
                <?php 
 
                 $query = "SELECT concat(u.first_name, ' ', u.last_name) as fullName, b.title, b.author, r.id as requestId, r.borrower_id, r.owner_id, r.book_id, r.is_answered, r.return_date ,  rr.* 
-                          FROM requests r 
-                          INNER JOIN books b on r.book_id = b.isbn
-                          INNER JOIN users u on r.borrower_id = u.id 
-                          INNER JOIN user_books ub on b.isbn = ub.book_id and ub.user_id = {$_SESSION['id']}
-                          LEFT JOIN return_requests rr on r.id = rr.request_id 
-                          WHERE r.owner_id = 9 and r.is_answered = 'approved' ";          
+                              FROM books b JOIN user_books ub on ub.book_id = b.isbn and ub.user_id = {$_SESSION['id']} 
+                              INNER JOIN users u on u.id = ub.user_id   
+                              LEFT JOIN requests r on ub.book_id = r.book_id and ub.user_id = r.owner_id                               
+                              LEFT JOIN return_requests rr on r.id = rr.request_id 
+                              WHERE r.owner_id =  {$_SESSION['id']}  and r.is_answered = 'approved'";          
                 $result = mysqli_query($connection, $query);
 
                 while ($row = mysqli_fetch_assoc($result)){
