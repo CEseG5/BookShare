@@ -195,6 +195,7 @@ include "includes/head.php";
                           FROM requests r 
                           INNER JOIN books b on r.book_id = b.isbn
                           INNER JOIN users u on r.borrower_id = u.id 
+                          INNER JOIN user_books ub on b.isbn = ub.book_id and ub.user_id = {$_SESSION['id']}
                           LEFT JOIN return_requests rr on r.id = rr.request_id 
                           WHERE r.owner_id = 9 and r.is_answered = 'approved' ";          
                 $result = mysqli_query($connection, $query);
