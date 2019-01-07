@@ -8,3 +8,4 @@
 		$result=mysqli_query($connection,$query);
 		header ('location: ../books.php');
 	}
+?>
