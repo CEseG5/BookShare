@@ -164,10 +164,11 @@ include "includes/head.php";
               while ($row = mysqli_fetch_assoc($result)){
 
                 echo "<div class='divTableRow'>";
-                echo "<form action='includes/updateRequests.php' method='POST'>";
+                echo "<form action='includes/returnRequest.php' method='POST'>";
                 echo "<div class='divTableHead col-md-6'><strong>\"".$row['title']."\" </strong>By: ".$row['author']."</div>";
                 echo "<div class='divTableHead col-md-2'>".$row['fullName']."</div>";
                 echo "<div class='divTableHead col-md-2'>".$row['return_date']."</div>";
+                echo "<input type='hidden' name='borrower_Id' value='".$row['borrower_id']."'>";
                 echo "<div class='divTableHead'><input class='btn bg-success' type='submit' name='return' value='Return'/></div>";
                 echo "</form>";
                 echo "</div>";
